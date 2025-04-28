@@ -145,7 +145,7 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
         supportingFiles.add(new SupportingFile("app/{{packageName}}/controllers/__init__.mustache", CONTROLLER_PATH, "__init__.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/models/__init__.mustache", MODEL_PATH, "__init__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model_.mustache", MODEL_PATH, "base_model_.py"));
+        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model.mustache", MODEL_PATH, "base_model.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/test/__init__.mustache", TEST_PATH, "__init__.py"));
 
@@ -220,7 +220,7 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
         supportingFiles.add(new SupportingFile("app/{{packageName}}/controllers/__init__.mustache", CONTROLLER_PATH, "__init__.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/models/__init__.mustache", MODEL_PATH, "__init__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model_.mustache", MODEL_PATH, "base_model_.py"));
+        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model.mustache", MODEL_PATH, "base_model.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/test/__init__.mustache", TEST_PATH, "__init__.py"));
 
@@ -237,8 +237,8 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     }
 
     @Override
-    public String toModelDocFilename( String name ) {
-        return toModelName( name ) + "_ResourceType";
+    public String toModelDocFilename(String name) {
+        return toModelName(name) + "_ResourceType";
     }
 
     @Override
@@ -262,5 +262,7 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.5.2+"; };
+    public String generatorLanguageVersion() {
+        return "3.5.2+";
+    }
 }

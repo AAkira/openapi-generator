@@ -20,12 +20,7 @@ package org.openapitools.codegen.java;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Discriminator;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-import java.util.Collections;
+import io.swagger.v3.oas.models.media.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -35,8 +30,9 @@ import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class JavaInheritanceTest {
+import java.util.Collections;
 
+public class JavaInheritanceTest {
 
     @Test(description = "convert a composed model with parent")
     public void javaInheritanceTest() {
@@ -48,7 +44,7 @@ public class JavaInheritanceTest {
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.setComponents(new Components()
-                .addSchemas(parentModel.getName(),parentModel)
+                .addSchemas(parentModel.getName(), parentModel)
                 .addSchemas(schema.getName(), schema)
         );
 
@@ -87,15 +83,15 @@ public class JavaInheritanceTest {
     @Test(description = "composed model has the required attributes on the child")
     public void javaInheritanceWithRequiredAttributesOnAllOfObject() {
         Schema parent = new ObjectSchema()
-                .addProperties("a", new StringSchema())
-                .addProperties("b", new StringSchema())
+                .addProperty("a", new StringSchema())
+                .addProperty("b", new StringSchema())
                 .addRequiredItem("a")
                 .name("Parent");
         Schema child = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Parent"))
                 .addAllOfItem(new ObjectSchema()
-                        .addProperties("c", new StringSchema())
-                        .addProperties("d", new StringSchema())
+                        .addProperty("c", new StringSchema())
+                        .addProperty("d", new StringSchema())
                         .addRequiredItem("a")
                         .addRequiredItem("c"))
                 .name("Child");
@@ -136,15 +132,15 @@ public class JavaInheritanceTest {
     @Test(description = "composed model has the required attributes for both parent & child")
     public void javaInheritanceWithRequiredAttributesOnComposedObject() {
         Schema parent = new ObjectSchema()
-                .addProperties("a", new StringSchema())
-                .addProperties("b", new StringSchema())
+                .addProperty("a", new StringSchema())
+                .addProperty("b", new StringSchema())
                 .addRequiredItem("a")
                 .name("Parent");
         Schema child = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Parent"))
                 .addAllOfItem(new ObjectSchema()
-                        .addProperties("c", new StringSchema())
-                        .addProperties("d", new StringSchema()))
+                        .addProperty("c", new StringSchema())
+                        .addProperty("d", new StringSchema()))
                 .name("Child")
                 .addRequiredItem("a")
                 .addRequiredItem("c");
@@ -180,5 +176,33 @@ public class JavaInheritanceTest {
         Assert.assertEquals(propertyCD.name, "d");
         Assert.assertFalse(propertyCD.required);
         Assert.assertEquals(cm.requiredVars.size() + cm.optionalVars.size(), cm.allVars.size());
+    }
+
+    @Test(description = "convert a composed model with parent with custom schema param")
+    public void javaInheritanceWithCustomSchemaTest() {
+        Schema custom = new Schema()
+                .name("Custom")
+                .addProperty("value", new StringSchema());
+        Schema parentModel = new Schema()
+                .name("Base")
+                .addProperty("customProperty", new Schema().type("custom"));
+        Schema schema = new ComposedSchema()
+                .name("Composed")
+                .addAllOfItem(new Schema().$ref("Base"));
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.setComponents(new Components()
+                .addSchemas(custom.getName(), custom)
+                .addSchemas(parentModel.getName(), parentModel)
+                .addSchemas(schema.getName(), schema)
+        );
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.schemaMapping()
+                .put("custom", custom.getName());
+        CodegenModel model = codegen.fromModel("sample", schema);
+
+        Assert.assertTrue(model.imports.contains(custom.getName()));
     }
 }

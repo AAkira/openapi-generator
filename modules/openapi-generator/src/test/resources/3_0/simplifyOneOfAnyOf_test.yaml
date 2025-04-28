@@ -30,12 +30,21 @@ components:
       description: to test anyOf
       anyOf:
         - type: string
+        - type: 'null'
         - type: null
+        - $ref: null
     OneOfTest:
       description: to test oneOf
       oneOf:
         - type: integer
+        - type: 'null'
+        - type: null
         - $ref: null
+    OneOfTest2:
+      description: to test oneOf
+      oneOf:
+        - type: string
+        - type: 'null'
     OneOfNullableTest:
       description: to test oneOf nullable
       oneOf:
@@ -49,3 +58,68 @@ components:
           enum:
             - A
             - B
+    Parent:
+      type: object
+      properties:
+        number:
+          anyOf:
+            - $ref: '#/components/schemas/Number'
+    ParentWithOneOfProperty:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - $ref: '#/components/schemas/Number'
+    ParentWithPluralOneOfProperty:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - $ref: '#/components/schemas/Number'
+            - $ref: '#/components/schemas/Number2'
+    Number:
+      enum:
+        - one
+        - two
+        - three
+      type: string
+    Number2:
+      enum:
+        - one
+        - two
+      type: string
+    AnyOfStringArrayOfString:
+      anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+    AnyOfAnyType:
+      anyOf:
+        - type: boolean
+        - type: array
+          items: {}
+        - type: object
+        - type: string
+        - type: number
+        - type: integer
+    AnyOfAnyTypeWithRef:
+      anyOf:
+        - type: boolean
+        - type: array
+          items: { }
+        - type: object
+        - type: string
+        - type: number
+        - $ref: '#/components/schemas/IntegerRef'
+    IntegerRef:
+      type: integer
+    OneOfAnyType:
+      oneOf:
+        - type: object
+        - type: boolean
+        - type: number
+        - type: string
+        - type: integer
+        - type: array
+          items: {}

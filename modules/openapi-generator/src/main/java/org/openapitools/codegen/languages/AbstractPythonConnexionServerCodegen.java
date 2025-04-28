@@ -18,8 +18,8 @@ package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
@@ -30,7 +30,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -38,11 +37,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.model.ApiInfoMap;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,7 +157,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         cliOptions.add(new CliOption(USE_PYTHON_SRC_ROOT_IN_IMPORTS, "include pythonSrcRoot in import namespaces.").
                 defaultValue("false"));
         cliOptions.add(new CliOption(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT, "generates test under the pythonSrcRoot folder.")
-            .defaultValue("false"));
+                .defaultValue("false"));
     }
 
     protected void addSupportingFiles() {
@@ -230,9 +225,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
         supportingFiles.add(new SupportingFile("typing_utils.mustache", packagePath(), "typing_utils.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "__init__.py"));
-        supportingFiles.add(new SupportingFile("security_controller_.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "security_controller_.py"));
+        supportingFiles.add(new SupportingFile("security_controller.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "security_controller.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "__init__.py"));
-        supportingFiles.add(new SupportingFile("base_model_.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "base_model_.py"));
+        supportingFiles.add(new SupportingFile("base_model.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "base_model.py"));
         supportingFiles.add(new SupportingFile("openapi.mustache", packagePath() + File.separatorChar + "openapi", "openapi.yaml"));
         addSupportingFiles();
 
@@ -317,7 +312,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
 
-
     @Override
     public String toApiTestFilename(String name) {
         return "test_" + toApiFilename(name);
@@ -342,11 +336,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -390,10 +383,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = operation.getTags().get(0);
                         }
-                        String operationId = operation.getOperationId();
-                        if (operationId == null) {
-                            operationId = getOrGenerateOperationId(operation, pathname, method.toString());
-                        }
+                        String operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         operation.setOperationId(toOperationId(operationId));
                         if (operation.getExtensions() == null || operation.getExtensions().get("x-openapi-router-controller") == null) {
                             operation.addExtension(
@@ -403,8 +393,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         }
                         if (operation.getParameters() != null) {
                             for (Parameter parameter : operation.getParameters()) {
+                                if (StringUtils.isNotEmpty(parameter.get$ref())) {
+                                    parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+                                }
                                 String swaggerParameterName = parameter.getName();
                                 String pythonParameterName = this.toParamName(swaggerParameterName);
+                                if (swaggerParameterName == null) {
+                                    throw new RuntimeException("Please report the issue as the parameter name cannot be null: " + parameter);
+                                }
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
                                     LOGGER.warn(
                                             "Parameter name '{}' is not consistent with Python variable names. It will be replaced by '{}'",
@@ -458,7 +454,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
                 String securityName = securitySchemesEntry.getKey();
                 SecurityScheme securityScheme = securitySchemesEntry.getValue();
-                String baseFunctionName = controllerPackage + ".security_controller_.";
+                String baseFunctionName = controllerPackage + ".security_controller.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
                         addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + securityName);
@@ -624,12 +620,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
-    public ModelsMap postProcessModels(ModelsMap objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
-    }
-
-    @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
         for (ModelsMap entry : result.values()) {
@@ -732,6 +722,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
      * does not support this in as natural a way so it needs to convert it. See
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
      */
+    @Override
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');

@@ -26,7 +26,7 @@ class ModelReturn {
     
     name: r'return',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -34,13 +34,15 @@ class ModelReturn {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
-     other.return_ == return_;
 
-  @override
-  int get hashCode =>
-    return_.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
+      other.return_ == return_;
+
+    @override
+    int get hashCode =>
+        return_.hashCode;
 
   factory ModelReturn.fromJson(Map<String, dynamic> json) => _$ModelReturnFromJson(json);
 

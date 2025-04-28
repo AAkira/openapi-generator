@@ -30,9 +30,15 @@ import com.fasterxml.jackson.databind.ObjectMapper
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
+        * POST /pet
         * Add a new pet to the store
         * 
          * @param body Pet object that needs to be added to the store 
@@ -64,6 +70,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             }
 
         /**
+        * DELETE /pet/{petId}
         * Deletes a pet
         * 
          * @param petId Pet id to delete 
@@ -98,6 +105,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             }
 
         /**
+        * GET /pet/findByStatus
         * Finds Pets by status
         * Multiple status values can be provided with comma separated strings
          * @param status Status values that need to be considered for filter 
@@ -132,6 +140,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             }
 
         /**
+        * GET /pet/findByTags
         * Finds Pets by tags
         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @param tags Tags to filter by 
@@ -166,6 +175,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             }
 
         /**
+        * GET /pet/{petId}
         * Find pet by ID
         * Returns a single pet
          * @param petId ID of pet to return 
@@ -199,6 +209,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             }
 
         /**
+        * PUT /pet
         * Update an existing pet
         * 
          * @param body Pet object that needs to be added to the store 
@@ -230,6 +241,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             }
 
         /**
+        * POST /pet/{petId}
         * Updates a pet in the store with form data
         * 
          * @param petId ID of pet that needs to be updated 
@@ -267,6 +279,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
             }
 
         /**
+        * POST /pet/{petId}/uploadImage
         * uploads an image
         * 
          * @param petId ID of pet to update 
@@ -275,14 +288,14 @@ import com.fasterxml.jackson.databind.ObjectMapper
          * @return ModelApiResponse
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ModelApiResponse> {
+        open suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>?): HttpResponse<ModelApiResponse> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
             val localVariableBody = 
                         formData {
                         additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
-                        file?.apply { append("file", file) }
+                        file?.apply { append(file) }
                         }
 
             val localVariableQuery = mutableMapOf<String, List<String>>()

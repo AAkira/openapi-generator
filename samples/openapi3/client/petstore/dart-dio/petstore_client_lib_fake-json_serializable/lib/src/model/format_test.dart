@@ -60,7 +60,7 @@ class FormatTest {
     
     name: r'integer',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -74,7 +74,7 @@ class FormatTest {
     
     name: r'int32',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -86,7 +86,7 @@ class FormatTest {
     
     name: r'int64',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -100,7 +100,7 @@ class FormatTest {
     
     name: r'number',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -114,7 +114,7 @@ class FormatTest {
     
     name: r'float',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -128,7 +128,7 @@ class FormatTest {
     
     name: r'double',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -140,7 +140,7 @@ class FormatTest {
     
     name: r'decimal',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -152,7 +152,7 @@ class FormatTest {
     
     name: r'string',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -164,7 +164,7 @@ class FormatTest {
     
     name: r'byte',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -183,7 +183,7 @@ class FormatTest {
     
     name: r'date',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
   @DateSerializer()
@@ -196,7 +196,7 @@ class FormatTest {
     
     name: r'dateTime',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -208,7 +208,7 @@ class FormatTest {
     
     name: r'uuid',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -220,7 +220,7 @@ class FormatTest {
     
     name: r'password',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -233,7 +233,7 @@ class FormatTest {
     
     name: r'pattern_with_digits',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -246,7 +246,7 @@ class FormatTest {
     
     name: r'pattern_with_digits_and_delimiter',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -254,43 +254,45 @@ class FormatTest {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
-     other.integer == integer &&
-     other.int32 == int32 &&
-     other.int64 == int64 &&
-     other.number == number &&
-     other.float == float &&
-     other.double_ == double_ &&
-     other.decimal == decimal &&
-     other.string == string &&
-     other.byte == byte &&
-     other.binary == binary &&
-     other.date == date &&
-     other.dateTime == dateTime &&
-     other.uuid == uuid &&
-     other.password == password &&
-     other.patternWithDigits == patternWithDigits &&
-     other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
 
-  @override
-  int get hashCode =>
-    integer.hashCode +
-    int32.hashCode +
-    int64.hashCode +
-    number.hashCode +
-    float.hashCode +
-    double_.hashCode +
-    decimal.hashCode +
-    string.hashCode +
-    byte.hashCode +
-    binary.hashCode +
-    date.hashCode +
-    dateTime.hashCode +
-    uuid.hashCode +
-    password.hashCode +
-    patternWithDigits.hashCode +
-    patternWithDigitsAndDelimiter.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
+      other.integer == integer &&
+      other.int32 == int32 &&
+      other.int64 == int64 &&
+      other.number == number &&
+      other.float == float &&
+      other.double_ == double_ &&
+      other.decimal == decimal &&
+      other.string == string &&
+      other.byte == byte &&
+      other.binary == binary &&
+      other.date == date &&
+      other.dateTime == dateTime &&
+      other.uuid == uuid &&
+      other.password == password &&
+      other.patternWithDigits == patternWithDigits &&
+      other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
+
+    @override
+    int get hashCode =>
+        integer.hashCode +
+        int32.hashCode +
+        int64.hashCode +
+        number.hashCode +
+        float.hashCode +
+        double_.hashCode +
+        decimal.hashCode +
+        string.hashCode +
+        byte.hashCode +
+        binary.hashCode +
+        date.hashCode +
+        dateTime.hashCode +
+        uuid.hashCode +
+        password.hashCode +
+        patternWithDigits.hashCode +
+        patternWithDigitsAndDelimiter.hashCode;
 
   factory FormatTest.fromJson(Map<String, dynamic> json) => _$FormatTestFromJson(json);
 

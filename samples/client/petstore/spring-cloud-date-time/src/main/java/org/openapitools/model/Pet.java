@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Pet {
 
   private String atType = "Pet";
@@ -40,11 +41,6 @@ public class Pet {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }
@@ -64,7 +60,7 @@ public class Pet {
   /**
    * Get atType
    * @return atType
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("@type")
@@ -84,7 +80,7 @@ public class Pet {
   /**
    * Get age
    * @return age
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("age")
@@ -104,7 +100,7 @@ public class Pet {
   /**
    * Get happy
    * @return happy
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("happy")
@@ -124,7 +120,7 @@ public class Pet {
   /**
    * Get price
    * @return price
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("price")
@@ -144,7 +140,7 @@ public class Pet {
   /**
    * Get lastFeed
    * @return lastFeed
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("lastFeed")
@@ -164,7 +160,7 @@ public class Pet {
   /**
    * Get dateOfBirth
    * @return dateOfBirth
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateOfBirth")

@@ -1,14 +1,14 @@
 package org.openapitools.codegen;
 
-import java.util.TreeSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.*;
 
 /**
  * This class encapsulates the OpenAPI discriminator construct, as specified at
  * https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#discriminatorObject.
- *
+ * <p>
  * When request bodies or response payloads may be one of a number of different schemas,
  * a discriminator object can be used to aid in serialization, deserialization, and validation.
  * The discriminator is a specific object in a schema which is used to inform the consumer of
@@ -17,10 +17,15 @@ import java.util.Set;
 public class CodegenDiscriminator {
     // The name of the property in the payload that will hold the discriminator value.
     // This is the propertyName as specified in the OpenAPI discriminator object.
+    @Getter @Setter
     private String propertyName;
+    @Getter @Setter
     private String propertyBaseName;
+    @Getter @Setter
     private String propertyGetter;
+    @Getter @Setter
     private String propertyType;
+    @Getter @Setter
     private Map<String, String> mapping;
     private boolean isEnum;
 
@@ -39,55 +44,11 @@ public class CodegenDiscriminator {
     //
     // see the method createDiscriminator in DefaultCodegen.java
 
+    @Getter @Setter
     private Set<MappedModel> mappedModels = new TreeSet<>();
+    @Getter @Setter
+    private Map<String, Object> vendorExtensions = new HashMap<>();
 
-    public String getPropertyName() {
-        return propertyName;
-    }
-
-    public void setPropertyName(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    public String getPropertyGetter() {
-        return propertyGetter;
-    }
-
-    public void setPropertyGetter(String propertyGetter) {
-        this.propertyGetter = propertyGetter;
-    }
-
-    public String getPropertyBaseName() {
-        return propertyBaseName;
-    }
-
-    public void setPropertyBaseName(String propertyBaseName) {
-        this.propertyBaseName = propertyBaseName;
-    }
-
-    public String getPropertyType() {
-        return propertyType;
-    }
-
-    public void setPropertyType(String propertyType) {
-        this.propertyType = propertyType;
-    }
-
-    public Map<String, String> getMapping() {
-        return mapping;
-    }
-
-    public void setMapping(Map<String, String> mapping) {
-        this.mapping = mapping;
-    }
-
-    public Set<MappedModel> getMappedModels() {
-        return mappedModels;
-    }
-
-    public void setMappedModels(Set<MappedModel> mappedModels) {
-        this.mappedModels = mappedModels;
-    }
 
     public boolean getIsEnum() {
         return isEnum;
@@ -100,23 +61,35 @@ public class CodegenDiscriminator {
     /**
      * An object to hold discriminator mappings between payload values and schema names or
      * references.
-     *
+     * <p>
      * In the OpenAPI document, the discriminator "mapping" attribute is optional.
      * In scenarios where the value of the discriminator field does not match the schema name
      * or implicit mapping is not possible, an optional mapping definition MAY be used.
      * In OpenAPITools codegen, the MappedModel is the union of all the discriminator mappings,
      * both explicitly defined in the OpenAPI document and inherited from oneOf/allOf/anyOf.
      */
-    public static class MappedModel implements Comparable<MappedModel>{
+    public static class MappedModel implements Comparable<MappedModel> {
         // The value of the discriminator property in the payload.
+        @Getter @Setter
         private String mappingName;
         // The OAS schema name. It is obtained from the OAS document, and the string value
         // is converted to a sanitized, internal representation within codegen.
+        @Getter @Setter
         private String modelName;
 
-        public MappedModel(String mappingName, String modelName) {
+        @Getter @Setter
+        private CodegenModel model;
+
+        private final boolean explicitMapping;
+
+        public MappedModel(String mappingName, String modelName, boolean explicitMapping) {
             this.mappingName = mappingName;
             this.modelName = modelName;
+            this.explicitMapping = explicitMapping;
+        }
+
+        public MappedModel(String mappingName, String modelName) {
+            this(mappingName, modelName, false);
         }
 
         @Override
@@ -128,23 +101,14 @@ public class CodegenDiscriminator {
             } else if (other.getMappingName() == null) {
                 return -1;
             }
-            return getMappingName().compareTo(other.getMappingName());
-        }
 
-        public String getMappingName() {
-            return mappingName;
-        }
-
-        public void setMappingName(String mappingName) {
-            this.mappingName = mappingName;
-        }
-
-        public String getModelName() {
-            return modelName;
-        }
-
-        public void setModelName(String modelName) {
-            this.modelName = modelName;
+            // prioritize mappings based on mappings in the spec before any auto-generated
+            // so that during serialization the proper values are used in the json
+            if (explicitMapping != other.explicitMapping) {
+                return explicitMapping ? -1 : 1;
+            } else {
+                return getMappingName().compareTo(other.getMappingName());
+            }
         }
 
         @Override
@@ -170,13 +134,14 @@ public class CodegenDiscriminator {
         return Objects.equals(propertyName, that.propertyName) &&
                 Objects.equals(propertyBaseName, that.propertyBaseName) &&
                 Objects.equals(mapping, that.mapping) &&
-                Objects.equals(mappedModels, that.mappedModels);
+                Objects.equals(mappedModels, that.mappedModels) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(propertyName, propertyBaseName, mapping, mappedModels);
+        return Objects.hash(propertyName, propertyBaseName, mapping, mappedModels, vendorExtensions);
     }
 
     @Override
@@ -186,6 +151,7 @@ public class CodegenDiscriminator {
         sb.append(", propertyBaseName='").append(propertyBaseName).append('\'');
         sb.append(", mapping=").append(mapping);
         sb.append(", mappedModels=").append(mappedModels);
+        sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append('}');
         return sb.toString();
     }

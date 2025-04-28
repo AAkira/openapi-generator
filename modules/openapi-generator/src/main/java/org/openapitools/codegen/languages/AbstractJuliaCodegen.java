@@ -16,39 +16,32 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
-
-import java.io.File;
-import java.util.*;
-
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.servers.Server;
-
-import org.apache.commons.lang3.StringUtils;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-import org.openapitools.codegen.utils.CamelizeOption;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.EscapeChar;
+import org.openapitools.codegen.utils.CamelizeOption;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected final Logger LOGGER = LoggerFactory.getLogger(AbstractJuliaCodegen.class);
@@ -60,9 +53,32 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    protected String packageName;
-    protected Boolean exportModels;
-    protected Boolean exportOperations;
+    @Setter protected String packageName;
+    @Setter protected Boolean exportModels;
+    @Setter protected Boolean exportOperations;
+
+    protected final DateTimeFormatter OFFSET_DATE_TIME_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    protected final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
+    protected final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+    protected final List<String> UNQUOTED_DATATYPES = Arrays.asList(
+            "int",
+            "integer",
+            "long",
+            "short",
+            "byte",
+            "float",
+            "double",
+            "number",
+            "decimal",
+            "boolean",
+            "Int64",
+            "Int32",
+            "UInt8",
+            "Float32",
+            "Float64",
+            "Bool"
+    );
+
 
     public AbstractJuliaCodegen() {
         super();
@@ -76,10 +92,10 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
                 .excludeWireFormatFeatures(
                         WireFormatFeature.XML
                 )
-                .excludeSecurityFeatures(
-                        SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                )
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BearerToken))
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
@@ -140,25 +156,13 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         return GeneratorLanguage.JULIA;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setExportModels(Boolean exportModels) {
-        this.exportModels = exportModels;
-    }
-
-    public void setExportOperations(Boolean exportOperations) {
-        this.exportOperations = exportOperations;
-    }
-
     protected static String dropDots(String str) {
         return str.replaceAll("\\.", "_");
     }
 
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reseved words
+     * those terms here.  This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
@@ -203,6 +207,11 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     }
 
     @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+
+    @Override
     public String toApiFilename(String name) {
         name = name.replaceAll("-", "_");
         return "api_" + camelize(name) + "Api";
@@ -219,6 +228,12 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        name = toVarName(name);
         CamelizeOption camelizeOption = CamelizeOption.UPPERCASE_FIRST_CHAR;
         name = camelize(sanitizeName(name), camelizeOption);
         name = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
@@ -235,7 +250,13 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return name;
+
     }
 
     /**
@@ -281,6 +302,11 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      */
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         String result = sanitizeName(name);
 
         // remove dollar sign
@@ -317,14 +343,13 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     @Override
     public String getTypeDeclaration(Schema schema) {
         if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema ap = (ArraySchema) schema;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(schema);
             return getSchemaType(schema) + "{" + getTypeDeclaration(inner) + "}";
         } else if (ModelUtils.isSet(schema)) {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return getSchemaType(schema) + "{" + getTypeDeclaration(inner) + "}";
         } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return getSchemaType(schema) + "{String, " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(schema);
@@ -367,31 +392,50 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      */
     @Override
     public String toDefaultValue(Schema schema) {
-        if (ModelUtils.isBooleanSchema(schema)) {
-            if (schema.getDefault() != null) {
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isBooleanSchema(schema)) {
                 return schema.getDefault().toString();
-            }
-        } else if (ModelUtils.isDateSchema(schema)) {
-            // TODO
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            // TODO
-        } else if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isLongSchema(schema) || ModelUtils.isNumberSchema(schema)) {
-            if (schema.getDefault() != null) {
-                return schema.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(schema)) {
-            if (schema.getDefault() != null) {
-                String _default = (String) schema.getDefault();
-                if (schema.getEnum() == null) {
-                    return "\"" + _default + "\"";
+            } else if (ModelUtils.isDateSchema(schema)) {
+                Object _default_obj = schema.getDefault();
+                String _default;
+                if (_default_obj instanceof Date) {
+                    _default = DATE_FORMAT.format(_default_obj);
                 } else {
-                    // convert to enum var name later in postProcessModels
-                    return _default;
+                    _default = _default_obj.toString();
                 }
+                return "OpenAPI.str2date(\"" + _default + "\")";
+            } else if (ModelUtils.isDateTimeSchema(schema)) {
+                Object _default_obj = schema.getDefault();
+                String _default;
+                if (_default_obj instanceof DateTime) {
+                    _default = DATE_TIME_FORMAT.format((DateTime) _default_obj);
+                } else if (_default_obj instanceof OffsetDateTime) {
+                    _default = OFFSET_DATE_TIME_FORMAT.format((OffsetDateTime) _default_obj);
+                } else {
+                    _default = _default_obj.toString();
+                }
+                return "OpenAPI.str2zoneddatetime(\"" + _default + "\")";
+            } else if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isLongSchema(schema) || ModelUtils.isNumberSchema(schema)) {
+                return schema.getDefault().toString();
+            } else if (ModelUtils.isStringSchema(schema)) {
+                String _default = String.valueOf(schema.getDefault());
+                return "\"" + _default + "\"";
             }
         }
 
         return "nothing";
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        // we do not generate any separate enum structure in Julia
+        return value;
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        // we do not generate any separate enum structure in Julia
+        return value;
     }
 
     @Override
@@ -405,31 +449,9 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * @param input String to be cleaned up
      * @return string with quotation mark removed or escaped
      */
+    @Override
     public String escapeQuotationMark(String input) {
         return input.replace("\"", "\\\"");
-    }
-
-    protected String escapeRegex(String pattern) {
-        pattern = pattern.replaceAll("\\\\\\\\", "\\\\");
-        pattern = pattern.replaceAll("^/", "");
-        pattern = pattern.replaceAll("/$", "");
-        return pattern;
-    }
-
-    /**
-     * Convert OpenAPI Parameter object to Codegen Parameter object
-     *
-     * @param imports set of imports for library/package/module
-     * @param param   OpenAPI parameter object
-     * @return Codegen Parameter object
-     */
-    @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter parameter = super.fromParameter(param, imports);
-        if (parameter.pattern != null) {
-            parameter.pattern = escapeRegex(parameter.pattern);
-        }
-        return parameter;
     }
 
     /**
@@ -453,9 +475,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         if (needsVarEscape(property.name)) {
             property.name = "var\"" + property.name + "\"";
         }
-        if (property.pattern != null) {
-            property.pattern = escapeRegex(property.pattern);
-        }
         return property;
     }
 
@@ -465,6 +484,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * @param operationId operation ID
      * @return the sanitized method name
      */
+    @Override
     @SuppressWarnings("static-method")
     public String toOperationId(String operationId) {
         CamelizeOption camelizeOption = CamelizeOption.UPPERCASE_FIRST_CHAR;
@@ -483,6 +503,19 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
                 param.paramName = param.paramName + "param";
             }
         }
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        if (pattern == null) {
+            return pattern;
+        }
+
+        pattern = escapeText(pattern);
+        // escapeText unnecessarily escapes `\` such that `\.` in the regex ends up as `\\.` for example.
+        // we need to restore it back by converting `\\` to `\`
+        pattern = pattern.replaceAll("\\\\\\\\", "\\\\");
+        return pattern;
     }
 
     /**
@@ -523,5 +556,29 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"));
+    }
+
+    // override with any special post-processing
+    @Override
+    @SuppressWarnings("static-method")
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+        return postProcessModelsEnum(objs);
+    }
+
+    /**
+     * Return the enum value in the language specified format
+     * e.g. status becomes "status"
+     *
+     * @param value    enum variable name
+     * @param datatype data type
+     * @return the sanitized value for enum
+     */
+    public String toEnumValue(String value, String datatype) {
+        if (datatype != null && UNQUOTED_DATATYPES.contains(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 }

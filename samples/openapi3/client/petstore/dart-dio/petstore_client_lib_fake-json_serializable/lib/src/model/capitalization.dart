@@ -36,7 +36,7 @@ class Capitalization {
     
     name: r'smallCamel',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -48,7 +48,7 @@ class Capitalization {
     
     name: r'CapitalCamel',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -60,7 +60,7 @@ class Capitalization {
     
     name: r'small_Snake',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -72,7 +72,7 @@ class Capitalization {
     
     name: r'Capital_Snake',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -84,7 +84,7 @@ class Capitalization {
     
     name: r'SCA_ETH_Flow_Points',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -97,7 +97,7 @@ class Capitalization {
     
     name: r'ATT_NAME',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -105,23 +105,25 @@ class Capitalization {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
-     other.smallCamel == smallCamel &&
-     other.capitalCamel == capitalCamel &&
-     other.smallSnake == smallSnake &&
-     other.capitalSnake == capitalSnake &&
-     other.sCAETHFlowPoints == sCAETHFlowPoints &&
-     other.ATT_NAME == ATT_NAME;
 
-  @override
-  int get hashCode =>
-    smallCamel.hashCode +
-    capitalCamel.hashCode +
-    smallSnake.hashCode +
-    capitalSnake.hashCode +
-    sCAETHFlowPoints.hashCode +
-    ATT_NAME.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
+      other.smallCamel == smallCamel &&
+      other.capitalCamel == capitalCamel &&
+      other.smallSnake == smallSnake &&
+      other.capitalSnake == capitalSnake &&
+      other.sCAETHFlowPoints == sCAETHFlowPoints &&
+      other.ATT_NAME == ATT_NAME;
+
+    @override
+    int get hashCode =>
+        smallCamel.hashCode +
+        capitalCamel.hashCode +
+        smallSnake.hashCode +
+        capitalSnake.hashCode +
+        sCAETHFlowPoints.hashCode +
+        ATT_NAME.hashCode;
 
   factory Capitalization.fromJson(Map<String, dynamic> json) => _$CapitalizationFromJson(json);
 

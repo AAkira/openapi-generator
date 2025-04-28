@@ -28,6 +28,9 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -146,7 +149,7 @@ public class UserApi {
          * @param body (User) Created user object (required)
          * @return operation
          */
-        public CreateUserOper body(User body) {
+        public CreateUserOper body(@javax.annotation.Nonnull User body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -204,10 +207,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithArrayInputOper body(List<User> body) {
+        public CreateUsersWithArrayInputOper body(@javax.annotation.Nonnull List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -265,10 +268,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithListInputOper body(List<User> body) {
+        public CreateUsersWithListInputOper body(@javax.annotation.Nonnull List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -372,7 +375,7 @@ public class UserApi {
 
         public GetUserByNameOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 
@@ -446,7 +449,7 @@ public class UserApi {
 
         public LoginUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 
@@ -600,7 +603,7 @@ public class UserApi {
          * @param body (User) Updated user object (required)
          * @return operation
          */
-        public UpdateUserOper body(User body) {
+        public UpdateUserOper body(@javax.annotation.Nonnull User body) {
             reqSpec.setBody(body);
             return this;
         }

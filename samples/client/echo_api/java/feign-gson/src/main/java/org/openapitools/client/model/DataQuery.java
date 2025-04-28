@@ -23,40 +23,44 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
+  @javax.annotation.Nullable
   private String suffix;
 
   public static final String SERIALIZED_NAME_TEXT = "text";
   @SerializedName(SERIALIZED_NAME_TEXT)
+  @javax.annotation.Nullable
   private String text;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
+  @javax.annotation.Nullable
   private OffsetDateTime date;
 
   public DataQuery() {
 
   }
 
-  public DataQuery suffix(String suffix) {
+  public DataQuery suffix(@javax.annotation.Nullable String suffix) {
     
     this.suffix = suffix;
     return this;
   }
 
-   /**
+  /**
    * test suffix
    * @return suffix
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getSuffix() {
@@ -64,21 +68,21 @@ public class DataQuery extends Query {
   }
 
 
-  public void setSuffix(String suffix) {
+  public void setSuffix(@javax.annotation.Nullable String suffix) {
     this.suffix = suffix;
   }
 
 
-  public DataQuery text(String text) {
+  public DataQuery text(@javax.annotation.Nullable String text) {
     
     this.text = text;
     return this;
   }
 
-   /**
+  /**
    * Some text containing white spaces
    * @return text
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getText() {
@@ -86,21 +90,21 @@ public class DataQuery extends Query {
   }
 
 
-  public void setText(String text) {
+  public void setText(@javax.annotation.Nullable String text) {
     this.text = text;
   }
 
 
-  public DataQuery date(OffsetDateTime date) {
+  public DataQuery date(@javax.annotation.Nullable OffsetDateTime date) {
     
     this.date = date;
     return this;
   }
 
-   /**
+  /**
    * A date
    * @return date
-  **/
+   */
   @javax.annotation.Nullable
 
   public OffsetDateTime getDate() {
@@ -108,21 +112,10 @@ public class DataQuery extends Query {
   }
 
 
-  public void setDate(OffsetDateTime date) {
+  public void setDate(@javax.annotation.Nullable OffsetDateTime date) {
     this.date = date;
   }
 
-  @Override
-  public DataQuery id(Long id) {
-    this.setId(id);
-    return this;
-  }
-
-  @Override
-  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
-    this.setOutcomes(outcomes);
-    return this;
-  }
 
   @Override
   public boolean equals(Object o) {

@@ -32,7 +32,7 @@ class Name {
     
     name: r'name',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -44,7 +44,7 @@ class Name {
     
     name: r'snake_case',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -56,7 +56,7 @@ class Name {
     
     name: r'property',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -68,7 +68,7 @@ class Name {
     
     name: r'123Number',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -76,19 +76,21 @@ class Name {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Name &&
-     other.name == name &&
-     other.snakeCase == snakeCase &&
-     other.property == property &&
-     other.n123number == n123number;
 
-  @override
-  int get hashCode =>
-    name.hashCode +
-    snakeCase.hashCode +
-    property.hashCode +
-    n123number.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Name &&
+      other.name == name &&
+      other.snakeCase == snakeCase &&
+      other.property == property &&
+      other.n123number == n123number;
+
+    @override
+    int get hashCode =>
+        name.hashCode +
+        snakeCase.hashCode +
+        property.hashCode +
+        n123number.hashCode;
 
   factory Name.fromJson(Map<String, dynamic> json) => _$NameFromJson(json);
 

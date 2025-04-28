@@ -28,7 +28,7 @@ class Tag {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -40,7 +40,7 @@ class Tag {
     
     name: r'name',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -48,15 +48,17 @@ class Tag {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Tag &&
-     other.id == id &&
-     other.name == name;
 
-  @override
-  int get hashCode =>
-    id.hashCode +
-    name.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Tag &&
+      other.id == id &&
+      other.name == name;
+
+    @override
+    int get hashCode =>
+        id.hashCode +
+        name.hashCode;
 
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 

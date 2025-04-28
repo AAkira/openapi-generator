@@ -41,6 +41,7 @@ import org.openapitools.client.infrastructure.*
 @Suppress ("UNUSED")
 class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: String? = null, apiKey: MutableMap<String, String> = mutableMapOf(), apiKeyPrefix: MutableMap<String, String> = mutableMapOf(), username: String? = null, password: String? = null, vertx: Vertx): ApiClient(basePath, accessToken, apiKey, apiKeyPrefix, username, password, vertx) {
     /**
+     * POST /pet
      * Add a new pet to the store
      * 
      * @param pet Pet object that needs to be added to the store
@@ -72,6 +73,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet
      * Add a new pet to the store
      * 
      * @param pet Pet object that needs to be added to the store
@@ -108,6 +110,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * DELETE /pet/{petId}
      * Deletes a pet
      * 
      * @param petId Pet id to delete
@@ -139,6 +142,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * DELETE /pet/{petId}
      * Deletes a pet
      * 
      * @param petId Pet id to delete
@@ -174,13 +178,14 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     /**
      * enum for parameter status
      */
-     enum class Status_findPetsByStatus(val value: kotlin.String) {
+     enum class StatusFindPetsByStatus(val value: kotlin.String) {
      @JsonProperty(value = "available") available("available"),
      @JsonProperty(value = "pending") pending("pending"),
      @JsonProperty(value = "sold") sold("sold")
      }
 
     /**
+     * GET /pet/findByStatus
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
@@ -193,7 +198,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun findPetsByStatus(status: kotlin.collections.List<Status_findPetsByStatus>) : kotlin.collections.List<Pet> {
+    suspend fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : kotlin.collections.List<Pet> {
         return findPetsByStatusWithHttpInfo(status = status).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
@@ -212,6 +217,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/findByStatus
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
@@ -221,7 +227,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<Status_findPetsByStatus>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
+    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/findByStatus"))
 
@@ -246,6 +252,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
@@ -278,6 +285,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
@@ -313,6 +321,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
@@ -344,6 +353,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
@@ -381,6 +391,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * PUT /pet
      * Update an existing pet
      * 
      * @param pet Pet object that needs to be added to the store
@@ -412,6 +423,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * PUT /pet
      * Update an existing pet
      * 
      * @param pet Pet object that needs to be added to the store
@@ -448,6 +460,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet/{petId}
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated
@@ -480,6 +493,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet/{petId}
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated
@@ -517,6 +531,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet/{petId}/uploadImage
      * uploads an image
      * 
      * @param petId ID of pet to update
@@ -550,6 +565,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet/{petId}/uploadImage
      * uploads an image
      * 
      * @param petId ID of pet to update

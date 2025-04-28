@@ -8,7 +8,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,7 +24,7 @@ import javax.annotation.Generated;
  * TypeHolderExample
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TypeHolderExample {
 
   private String stringItem;
@@ -38,11 +40,6 @@ public class TypeHolderExample {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderExample#TypeHolderExample(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
   public TypeHolderExample() {
     super();
   }
@@ -67,7 +64,7 @@ public class TypeHolderExample {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty("string_item")
@@ -87,7 +84,7 @@ public class TypeHolderExample {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull @Valid 
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("number_item")
@@ -107,7 +104,7 @@ public class TypeHolderExample {
   /**
    * Get floatItem
    * @return floatItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("float_item")
@@ -127,7 +124,7 @@ public class TypeHolderExample {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty("integer_item")
@@ -147,7 +144,7 @@ public class TypeHolderExample {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty("bool_item")
@@ -175,7 +172,7 @@ public class TypeHolderExample {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "[0,1,2,3]", required = true, value = "")
   @JsonProperty("array_item")
