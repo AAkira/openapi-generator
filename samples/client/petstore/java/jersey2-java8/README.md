@@ -4,6 +4,8 @@ OpenAPI Petstore
 
 - API version: 1.0.0
 
+- Generator version: 7.14.0-SNAPSHOT
+
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 
@@ -116,9 +118,10 @@ public class AnotherFakeApiExample {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
+        UUID uuidTest = UUID.randomUUID(); // UUID | to test uuid example value
         Client body = new Client(); // Client | client model
         try {
-            Client result = apiInstance.call123testSpecialTags(body);
+            Client result = apiInstance.call123testSpecialTags(uuidTest, body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -192,15 +195,12 @@ Class | Method | HTTP request | Description
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [BigCat](docs/BigCat.md)
- - [BigCatAllOf](docs/BigCatAllOf.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
@@ -229,9 +229,12 @@ Class | Method | HTTP request | Description
  - [XmlItem](docs/XmlItem.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 
@@ -242,6 +245,7 @@ Authentication schemes defined for the API:
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
+<a id="api_key"></a>
 ### api_key
 
 
@@ -249,6 +253,7 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+<a id="api_key_query"></a>
 ### api_key_query
 
 
@@ -256,6 +261,7 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+<a id="http_basic_test"></a>
 ### http_basic_test
 
 

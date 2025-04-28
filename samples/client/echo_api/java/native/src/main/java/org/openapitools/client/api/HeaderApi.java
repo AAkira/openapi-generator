@@ -15,8 +15,10 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
+import org.openapitools.client.model.StringEnumRef;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class HeaderApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -60,7 +62,7 @@ public class HeaderApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public HeaderApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public HeaderApi(ApiClient apiClient) {
@@ -92,11 +94,13 @@ public class HeaderApi {
    * @param integerHeader  (optional)
    * @param booleanHeader  (optional)
    * @param stringHeader  (optional)
+   * @param enumNonrefStringHeader  (optional)
+   * @param enumRefStringHeader  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testHeaderIntegerBooleanString(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
-    ApiResponse<String> localVarResponse = testHeaderIntegerBooleanStringWithHttpInfo(integerHeader, booleanHeader, stringHeader);
+  public String testHeaderIntegerBooleanStringEnums(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws ApiException {
+    ApiResponse<String> localVarResponse = testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
     return localVarResponse.getData();
   }
 
@@ -106,11 +110,13 @@ public class HeaderApi {
    * @param integerHeader  (optional)
    * @param booleanHeader  (optional)
    * @param stringHeader  (optional)
+   * @param enumNonrefStringHeader  (optional)
+   * @param enumRefStringHeader  (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testHeaderIntegerBooleanStringWithHttpInfo(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testHeaderIntegerBooleanStringRequestBuilder(integerHeader, booleanHeader, stringHeader);
+  public ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testHeaderIntegerBooleanStringEnumsRequestBuilder(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -120,11 +126,11 @@ public class HeaderApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("testHeaderIntegerBooleanString", localVarResponse);
+          throw getApiException("testHeaderIntegerBooleanStringEnums", localVarResponse);
         }
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
-                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
           java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
@@ -146,11 +152,11 @@ public class HeaderApi {
     }
   }
 
-  private HttpRequest.Builder testHeaderIntegerBooleanStringRequestBuilder(Integer integerHeader, Boolean booleanHeader, String stringHeader) throws ApiException {
+  private HttpRequest.Builder testHeaderIntegerBooleanStringEnumsRequestBuilder(@javax.annotation.Nullable Integer integerHeader, @javax.annotation.Nullable Boolean booleanHeader, @javax.annotation.Nullable String stringHeader, @javax.annotation.Nullable String enumNonrefStringHeader, @javax.annotation.Nullable StringEnumRef enumRefStringHeader) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/header/integer/boolean/string";
+    String localVarPath = "/header/integer/boolean/string/enums";
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
@@ -163,6 +169,12 @@ public class HeaderApi {
     if (stringHeader != null) {
       localVarRequestBuilder.header("string_header", stringHeader.toString());
     }
+    if (enumNonrefStringHeader != null) {
+      localVarRequestBuilder.header("enum_nonref_string_header", enumNonrefStringHeader.toString());
+    }
+    if (enumRefStringHeader != null) {
+      localVarRequestBuilder.header("enum_ref_string_header", enumRefStringHeader.toString());
+    }
     localVarRequestBuilder.header("Accept", "text/plain");
 
     localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
@@ -174,4 +186,5 @@ public class HeaderApi {
     }
     return localVarRequestBuilder;
   }
+
 }

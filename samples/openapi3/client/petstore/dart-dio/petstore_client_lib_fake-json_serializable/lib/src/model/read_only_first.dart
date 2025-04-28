@@ -28,7 +28,7 @@ class ReadOnlyFirst {
     
     name: r'bar',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -40,7 +40,7 @@ class ReadOnlyFirst {
     
     name: r'baz',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -48,15 +48,17 @@ class ReadOnlyFirst {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
-     other.bar == bar &&
-     other.baz == baz;
 
-  @override
-  int get hashCode =>
-    bar.hashCode +
-    baz.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
+      other.bar == bar &&
+      other.baz == baz;
+
+    @override
+    int get hashCode =>
+        bar.hashCode +
+        baz.hashCode;
 
   factory ReadOnlyFirst.fromJson(Map<String, dynamic> json) => _$ReadOnlyFirstFromJson(json);
 

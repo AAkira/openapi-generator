@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,13 +32,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -46,111 +48,103 @@ import org.openapitools.client.JSON;
 /**
  * TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
   public static final String SERIALIZED_NAME_SIZE = "size";
   @SerializedName(SERIALIZED_NAME_SIZE)
+  @javax.annotation.Nullable
   private String size;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
+  @javax.annotation.Nullable
   private String color;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
   }
 
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter size(String size) {
-    
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter size(@javax.annotation.Nullable String size) {
     this.size = size;
     return this;
   }
 
-   /**
+  /**
    * Get size
    * @return size
-  **/
+   */
   @javax.annotation.Nullable
-
   public String getSize() {
     return size;
   }
 
-
-  public void setSize(String size) {
+  public void setSize(@javax.annotation.Nullable String size) {
     this.size = size;
   }
 
 
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter color(String color) {
-    
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter color(@javax.annotation.Nullable String color) {
     this.color = color;
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }
 
-
-  public void setColor(String color) {
+  public void setColor(@javax.annotation.Nullable String color) {
     this.color = color;
   }
 
 
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter id(Long id) {
-    
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
 
-
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter name(String name) {
-    
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
-
   public String getName() {
     return name;
   }
 
-
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
@@ -215,26 +209,27 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Object and throws an exception if issues found
-  *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-  */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+   */
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter is not found in the empty JSON string", TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("size") != null && !jsonObj.get("size").isJsonNull()) && !jsonObj.get("size").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `size` to be a primitive type in the JSON string but got `%s`", jsonObj.get("size").toString()));
       }
@@ -266,31 +261,31 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
 
            @Override
            public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();
     }
   }
 
- /**
-  * Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-  * @throws IOException if the JSON string is invalid with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-  */
+  /**
+   * Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+   * @throws IOException if the JSON string is invalid with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+   */
   public static TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.class);
   }
 
- /**
-  * Convert an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -33,7 +33,7 @@ class Dog {
     
     name: r'className',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -45,7 +45,7 @@ class Dog {
     defaultValue: 'red',
     name: r'color',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -57,7 +57,7 @@ class Dog {
     
     name: r'breed',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -65,17 +65,19 @@ class Dog {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Dog &&
-     other.className == className &&
-     other.color == color &&
-     other.breed == breed;
 
-  @override
-  int get hashCode =>
-    className.hashCode +
-    color.hashCode +
-    breed.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Dog &&
+      other.className == className &&
+      other.color == color &&
+      other.breed == breed;
+
+    @override
+    int get hashCode =>
+        className.hashCode +
+        color.hashCode +
+        breed.hashCode;
 
   factory Dog.fromJson(Map<String, dynamic> json) => _$DogFromJson(json);
 

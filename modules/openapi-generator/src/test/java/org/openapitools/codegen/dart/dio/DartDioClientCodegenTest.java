@@ -16,15 +16,15 @@
 
 package org.openapitools.codegen.dart.dio;
 
-import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +38,15 @@ public class DartDioClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
+    }
+
+    @Test
+    public void testInitialFeatures() {
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertNotNull(codegen.getFeatureSet().getSecurityFeatures());
+        Assert.assertFalse(codegen.getFeatureSet().getSecurityFeatures().isEmpty());
     }
 
     @Test
@@ -67,7 +76,9 @@ public class DartDioClientCodegenTest {
         List<String> reservedWordsList = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), StandardCharsets.UTF_8));
-            while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
+            while (reader.ready()) {
+                reservedWordsList.add(reader.readLine());
+            }
             reader.close();
         } catch (Exception e) {
             String errorString = String.format(Locale.ROOT, "Error reading dart keywords: %s", e);
@@ -76,10 +87,32 @@ public class DartDioClientCodegenTest {
 
         Assert.assertTrue(reservedWordsList.size() > 20);
         Assert.assertEquals(codegen.reservedWords().size(), reservedWordsList.size());
-        for(String keyword : reservedWordsList) {
+        for (String keyword : reservedWordsList) {
             // reserved words are stored in lowercase
             Assert.assertTrue(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
         }
     }
 
+    @Test
+    public void verifyDartDioGeneratorRuns() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setGitUserId("my-user")
+                .setGitRepoId("my-repo")
+                .setPackageName("my-package")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.ensureContainsFile(files, output, "README.md");
+        TestUtils.ensureContainsFile(files, output, "lib/src/api.dart");
+    }
 }

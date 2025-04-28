@@ -26,7 +26,7 @@ class Foo {
     defaultValue: 'bar',
     name: r'bar',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -34,13 +34,15 @@ class Foo {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Foo &&
-     other.bar == bar;
 
-  @override
-  int get hashCode =>
-    bar.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Foo &&
+      other.bar == bar;
+
+    @override
+    int get hashCode =>
+        bar.hashCode;
 
   factory Foo.fromJson(Map<String, dynamic> json) => _$FooFromJson(json);
 

@@ -35,13 +35,13 @@ public class Swift5ModelTest {
     public void simpleModelTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("binary", new BinarySchema())
-                .addProperties("byte", new ByteArraySchema())
-                .addProperties("uuid", new UUIDSchema())
-                .addProperties("dateOfBirth", new DateSchema())
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("name", new StringSchema())
+                .addProperty("createdAt", new DateTimeSchema())
+                .addProperty("binary", new BinarySchema())
+                .addProperty("byte", new ByteArraySchema())
+                .addProperty("uuid", new UUIDSchema())
+                .addProperty("dateOfBirth", new DateSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name")
                 .discriminator(new Discriminator().propertyName("test"));
@@ -54,7 +54,7 @@ public class Swift5ModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 7);
-        Assert.assertEquals(cm.getDiscriminatorName(),"test");
+        Assert.assertEquals(cm.getDiscriminatorName(), "test");
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -126,13 +126,13 @@ public class Swift5ModelTest {
     public void useCustomDateTimeTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("binary", new BinarySchema())
-                .addProperties("byte", new ByteArraySchema())
-                .addProperties("uuid", new UUIDSchema())
-                .addProperties("dateOfBirth", new DateSchema())
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("name", new StringSchema())
+                .addProperty("createdAt", new DateTimeSchema())
+                .addProperty("binary", new BinarySchema())
+                .addProperty("byte", new ByteArraySchema())
+                .addProperty("uuid", new UUIDSchema())
+                .addProperty("dateOfBirth", new DateSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name")
                 .discriminator(new Discriminator().propertyName("test"));

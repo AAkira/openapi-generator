@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -34,18 +35,13 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class AnimalDto {
 
   private String className;
 
   private String color = "red";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link AnimalDto#AnimalDto(String)}
-   */
-  @Deprecated
   public AnimalDto() {
     super();
   }
@@ -65,7 +61,7 @@ public class AnimalDto {
   /**
    * Get className
    * @return className
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
@@ -85,7 +81,7 @@ public class AnimalDto {
   /**
    * Get color
    * @return color
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("color")

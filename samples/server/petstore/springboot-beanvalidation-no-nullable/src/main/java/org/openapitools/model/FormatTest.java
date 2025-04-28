@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -26,44 +27,39 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class FormatTest {
 
-  private Integer integer;
+  private @Nullable Integer integer;
 
-  private Integer int32;
+  private @Nullable Integer int32;
 
-  private Long int64;
+  private @Nullable Long int64;
 
   private BigDecimal number;
 
-  private Float _float;
+  private @Nullable Float _float;
 
-  private Double _double;
+  private @Nullable Double _double;
 
-  private String string;
+  private @Nullable String string;
 
   private byte[] _byte;
 
-  private org.springframework.core.io.Resource binary;
+  private @Nullable org.springframework.core.io.Resource binary;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private @Nullable OffsetDateTime dateTime;
 
-  private UUID uuid;
+  private @Nullable UUID uuid;
 
   private String password;
 
-  private BigDecimal bigDecimal;
+  private @Nullable BigDecimal bigDecimal;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FormatTest#FormatTest(BigDecimal, byte[], LocalDate, String)}
-   */
-  @Deprecated
   public FormatTest() {
     super();
   }
@@ -88,7 +84,7 @@ public class FormatTest {
    * minimum: 10
    * maximum: 100
    * @return integer
-  */
+   */
   @Min(10) @Max(100) 
   @ApiModelProperty(value = "")
   @JsonProperty("integer")
@@ -110,7 +106,7 @@ public class FormatTest {
    * minimum: 20
    * maximum: 200
    * @return int32
-  */
+   */
   @Min(20) @Max(200) 
   @ApiModelProperty(value = "")
   @JsonProperty("int32")
@@ -130,7 +126,7 @@ public class FormatTest {
   /**
    * Get int64
    * @return int64
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("int64")
@@ -152,7 +148,7 @@ public class FormatTest {
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  */
+   */
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
@@ -174,7 +170,7 @@ public class FormatTest {
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  */
+   */
   @DecimalMin("54.3") @DecimalMax("987.6") 
   @ApiModelProperty(value = "")
   @JsonProperty("float")
@@ -196,7 +192,7 @@ public class FormatTest {
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  */
+   */
   @DecimalMin("67.8") @DecimalMax("123.4") 
   @ApiModelProperty(value = "")
   @JsonProperty("double")
@@ -216,7 +212,7 @@ public class FormatTest {
   /**
    * Get string
    * @return string
-  */
+   */
   @Pattern(regexp = "/[a-z]/i") 
   @ApiModelProperty(value = "")
   @JsonProperty("string")
@@ -236,7 +232,7 @@ public class FormatTest {
   /**
    * Get _byte
    * @return _byte
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("byte")
@@ -256,7 +252,7 @@ public class FormatTest {
   /**
    * Get binary
    * @return binary
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
@@ -276,7 +272,7 @@ public class FormatTest {
   /**
    * Get date
    * @return date
-  */
+   */
   @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("date")
@@ -296,7 +292,7 @@ public class FormatTest {
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
@@ -316,7 +312,7 @@ public class FormatTest {
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   @Valid 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
@@ -336,7 +332,7 @@ public class FormatTest {
   /**
    * Get password
    * @return password
-  */
+   */
   @NotNull @Size(min = 10, max = 64) 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
@@ -356,7 +352,7 @@ public class FormatTest {
   /**
    * Get bigDecimal
    * @return bigDecimal
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("BigDecimal")
@@ -414,7 +410,7 @@ public class FormatTest {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();

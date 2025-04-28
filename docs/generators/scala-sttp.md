@@ -7,11 +7,11 @@ title: Documentation for the scala-sttp Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | scala-sttp | pass this to the generate command after -g |
-| generator stability | BETA | |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Scala | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Scala client library (beta) based on Sttp. | |
+| helpTxt | Generates a Scala client library based on Sttp. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
+|circeVersion|The version of circe library| |0.14.1|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for JDK 1.8+)</dd></dl>|java8|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
@@ -241,6 +242,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

@@ -60,7 +60,7 @@ public class AndroidClientCodegenTest {
         final AndroidClientCodegen codegen = new AndroidClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
@@ -69,5 +69,25 @@ public class AndroidClientCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
+    }
+
+    @Test
+    public void testHideGenerationTimestampDisabled() throws Exception {
+        final AndroidClientCodegen codegen = new AndroidClientCodegen();
+        codegen.additionalProperties().put("hideGenerationTimestamp", false);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("hideGenerationTimestamp"), Boolean.FALSE);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
+    }
+
+    @Test
+    public void testHideGenerationTimestampEnabled() throws Exception {
+        final AndroidClientCodegen codegen = new AndroidClientCodegen();
+        codegen.additionalProperties().put("hideGenerationTimestamp", true);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("hideGenerationTimestamp"), Boolean.TRUE);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 }

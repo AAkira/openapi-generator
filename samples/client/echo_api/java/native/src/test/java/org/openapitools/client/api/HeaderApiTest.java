@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.openapitools.client.model.StringEnumRef;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import java.util.Set;
 /**
  * API tests for HeaderApi
  */
-@Ignore
+@Disabled
 public class HeaderApiTest {
 
     private final HeaderApi api = new HeaderApi();
@@ -42,12 +43,14 @@ public class HeaderApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testHeaderIntegerBooleanStringTest() throws ApiException {
+    public void testHeaderIntegerBooleanStringEnumsTest() throws ApiException {
         Integer integerHeader = null;
         Boolean booleanHeader = null;
         String stringHeader = null;
+        String enumNonrefStringHeader = null;
+        StringEnumRef enumRefStringHeader = null;
         String response = 
-        api.testHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader);
+        api.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
         
         // TODO: test validations
     }

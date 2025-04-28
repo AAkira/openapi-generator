@@ -13,6 +13,12 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.HashMap;
-import java.util.Map;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -32,26 +38,27 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AdditionalPropertiesBoolean.JSON_PROPERTY_NAME
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+public class AdditionalPropertiesBoolean {
   public static final String JSON_PROPERTY_NAME = "name";
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesBoolean() {
-
   }
 
-  public AdditionalPropertiesBoolean name(String name) {
+  public AdditionalPropertiesBoolean name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -62,34 +69,70 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
 
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
+  }
+
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Boolean> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   * @param key the name of the property
+   * @param value the value of the property
+   * @return self reference
+   */
+  @JsonAnySetter
+  public AdditionalPropertiesBoolean putAdditionalProperty(String key, Boolean value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Boolean>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) properties.
+   * @return the additional (undeclared) properties
+   */
+  @JsonAnyGetter
+  public Map<String, Boolean> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   * @param key the name of the property
+   * @return the additional (undeclared) property with the specified name
+   */
+  public Boolean getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
-    return Objects.equals(this.name, additionalPropertiesBoolean.name) &&
-        super.equals(o);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesBoolean {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

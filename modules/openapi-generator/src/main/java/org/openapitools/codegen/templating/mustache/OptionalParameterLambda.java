@@ -25,16 +25,14 @@ import org.openapitools.codegen.languages.AbstractCSharpCodegen;
 import java.io.IOException;
 import java.io.Writer;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 /**
  * Appends trailing ? to a text fragment if not already present
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("optional", new OptionalParameterLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#lambda.optional}}{{name}}{{/lambda.optional}}
@@ -42,9 +40,9 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
  */
 public class OptionalParameterLambda implements Mustache.Lambda {
     private CodegenConfig generator = null;
-    private Boolean escapeParam = false;
 
-    public OptionalParameterLambda() {}
+    public OptionalParameterLambda() {
+    }
 
     public OptionalParameterLambda generator(final CodegenConfig generator) {
         this.generator = generator;
@@ -55,12 +53,12 @@ public class OptionalParameterLambda implements Mustache.Lambda {
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         String text = fragment.execute();
 
-        if (this.generator instanceof AbstractCSharpCodegen){
+        if (this.generator instanceof AbstractCSharpCodegen) {
             AbstractCSharpCodegen csharpGenerator = (AbstractCSharpCodegen) this.generator;
-            if (csharpGenerator.getNullableReferencesTypes()){
+            if (csharpGenerator.getNullableReferencesTypes()) {
                 text = text.endsWith("?")
-                    ? text
-                    : text + "?";
+                        ? text
+                        : text + "?";
             }
         }
 

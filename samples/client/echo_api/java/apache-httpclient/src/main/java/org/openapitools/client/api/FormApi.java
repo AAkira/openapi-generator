@@ -16,10 +16,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.BaseApi;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
+import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
 
 
 import java.util.ArrayList;
@@ -29,26 +30,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class FormApi {
-
-
-  private ApiClient apiClient;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+public class FormApi extends BaseApi {
 
   public FormApi() {
-    this(Configuration.getDefaultApiClient());
+    super(Configuration.getDefaultApiClient());
   }
 
   public FormApi(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
-
-  public ApiClient getApiClient() {
-    return apiClient;
-  }
-
-  public void setApiClient(ApiClient apiClient) {
-    this.apiClient = apiClient;
+    super(apiClient);
   }
 
   /**
@@ -60,7 +50,7 @@ public class FormApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+  public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
     return this.testFormIntegerBooleanString(integerForm, booleanForm, stringForm, Collections.emptyMap());
   }
 
@@ -75,7 +65,7 @@ public class FormApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm, Map<String, String> additionalHeaders) throws ApiException {
+  public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -130,4 +120,211 @@ if (stringForm != null)
     );
   }
 
+  /**
+   * Test form parameter(s) for multipart schema
+   * Test form parameter(s) for multipart schema
+   * @param marker  (required)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
+    return this.testFormObjectMultipart(marker, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test form parameter(s) for multipart schema
+   * Test form parameter(s) for multipart schema
+   * @param marker  (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'marker' is set
+    if (marker == null) {
+      throw new ApiException(400, "Missing the required parameter 'marker' when calling testFormObjectMultipart");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/form/object/multipart";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    if (marker != null)
+      localVarFormParams.put("marker", marker);
+
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "multipart/form-data"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<String> localVarReturnType = new TypeReference<String>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Test form parameter(s) for oneOf schema
+   * Test form parameter(s) for oneOf schema
+   * @param form1  (optional)
+   * @param form2  (optional)
+   * @param form3  (optional)
+   * @param form4  (optional)
+   * @param id  (optional)
+   * @param name  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
+    return this.testFormOneof(form1, form2, form3, form4, id, name, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test form parameter(s) for oneOf schema
+   * Test form parameter(s) for oneOf schema
+   * @param form1  (optional)
+   * @param form2  (optional)
+   * @param form3  (optional)
+   * @param form4  (optional)
+   * @param id  (optional)
+   * @param name  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/form/oneof";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    if (form1 != null)
+      localVarFormParams.put("form1", form1);
+if (form2 != null)
+      localVarFormParams.put("form2", form2);
+if (form3 != null)
+      localVarFormParams.put("form3", form3);
+if (form4 != null)
+      localVarFormParams.put("form4", form4);
+if (id != null)
+      localVarFormParams.put("id", id);
+if (name != null)
+      localVarFormParams.put("name", name);
+
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/x-www-form-urlencoded"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<String> localVarReturnType = new TypeReference<String>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  @Override
+  public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
+    String localVarPath = url.replace(apiClient.getBaseURL(), "");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/x-www-form-urlencoded"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    return apiClient.invokeAPI(
+      localVarPath,
+        method,
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        request,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        returnType
+    );
+  }
 }

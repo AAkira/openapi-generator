@@ -8,9 +8,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,12 +27,12 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "A pet for sale in the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Pet {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private Category category;
+  private @Nullable Category category;
 
   private String name;
 
@@ -38,7 +40,7 @@ public class Pet {
   private List<String> photoUrls = new ArrayList<>();
 
   @Valid
-  private List<@Valid Tag> tags;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -50,7 +52,7 @@ public class Pet {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -77,13 +79,9 @@ public class Pet {
     }
   }
 
-  private StatusEnum status;
-
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String, List<String>)}
-   */
   @Deprecated
+  private @Nullable StatusEnum status;
+
   public Pet() {
     super();
   }
@@ -104,7 +102,7 @@ public class Pet {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -124,7 +122,7 @@ public class Pet {
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
@@ -144,7 +142,7 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
@@ -172,7 +170,7 @@ public class Pet {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
@@ -200,7 +198,7 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
@@ -220,14 +218,20 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
-  */
+   * @deprecated
+   */
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

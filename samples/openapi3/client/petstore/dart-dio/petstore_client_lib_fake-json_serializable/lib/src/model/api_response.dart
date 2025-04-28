@@ -30,7 +30,7 @@ class ApiResponse {
     
     name: r'code',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -42,7 +42,7 @@ class ApiResponse {
     
     name: r'type',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -54,7 +54,7 @@ class ApiResponse {
     
     name: r'message',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -62,17 +62,19 @@ class ApiResponse {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
-     other.code == code &&
-     other.type == type &&
-     other.message == message;
 
-  @override
-  int get hashCode =>
-    code.hashCode +
-    type.hashCode +
-    message.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
+      other.code == code &&
+      other.type == type &&
+      other.message == message;
+
+    @override
+    int get hashCode =>
+        code.hashCode +
+        type.hashCode +
+        message.hashCode;
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
 

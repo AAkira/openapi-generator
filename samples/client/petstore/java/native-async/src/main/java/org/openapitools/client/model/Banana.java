@@ -17,7 +17,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -26,36 +25,38 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Banana
  */
 @JsonPropertyOrder({
   Banana.JSON_PROPERTY_LENGTH_CM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
+  @javax.annotation.Nullable
   private BigDecimal lengthCm;
 
   public Banana() { 
   }
 
-  public Banana lengthCm(BigDecimal lengthCm) {
+  public Banana lengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
 
-   /**
+  /**
    * Get lengthCm
    * @return lengthCm
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
@@ -63,7 +64,7 @@ public class Banana {
 
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nullable BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
@@ -142,7 +143,7 @@ public class Banana {
 
     // add `lengthCm` to the URL query string
     if (getLengthCm() != null) {
-      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getLengthCm()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLengthCm()))));
     }
 
     return joiner.toString();

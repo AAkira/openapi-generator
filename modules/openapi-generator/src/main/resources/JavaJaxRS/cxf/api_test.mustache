@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
+import {{javaxPackage}}.validation.Valid;
 import {{javaxPackage}}.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
@@ -23,12 +24,10 @@ import org.apache.cxf.interceptor.LoggingOutInterceptor;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
 {{#generateSpringBootApplication}}
 import org.junit.runner.RunWith;

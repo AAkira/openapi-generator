@@ -16,7 +16,7 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
-import okhttp3.OkHttpClient
+import okhttp3.Call
 import okhttp3.HttpUrl
 
 import org.openapitools.client.models.User
@@ -38,7 +38,7 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
+class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -47,6 +47,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
     }
 
     /**
+     * POST /user
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object
@@ -71,12 +72,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
 
     /**
+     * POST /user
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object
@@ -115,6 +117,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
     }
 
     /**
+     * POST /user/createWithArray
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -139,12 +142,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
 
     /**
+     * POST /user/createWithArray
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -183,6 +187,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
     }
 
     /**
+     * POST /user/createWithList
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -207,12 +212,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
 
     /**
+     * POST /user/createWithList
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -251,6 +257,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
     }
 
     /**
+     * DELETE /user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
@@ -275,12 +282,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
 
     /**
+     * DELETE /user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
@@ -319,6 +327,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
     }
 
     /**
+     * GET /user/{username}
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing.
@@ -344,12 +353,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
 
     /**
+     * GET /user/{username}
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing.
@@ -390,6 +400,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
     }
 
     /**
+     * GET /user/login
      * Logs user into the system
      * 
      * @param username The user name for login
@@ -416,12 +427,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
 
     /**
+     * GET /user/login
      * Logs user into the system
      * 
      * @param username The user name for login
@@ -468,6 +480,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
     }
 
     /**
+     * GET /user/logout
      * Logs out current logged in user session
      * 
      * @return void
@@ -491,12 +504,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
 
     /**
+     * GET /user/logout
      * Logs out current logged in user session
      * 
      * @return ApiResponse<Unit?>
@@ -533,6 +547,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
     }
 
     /**
+     * PUT /user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
@@ -558,12 +573,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = 
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
 
     /**
+     * PUT /user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted

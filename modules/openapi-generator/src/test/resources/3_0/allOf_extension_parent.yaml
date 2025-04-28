@@ -97,3 +97,19 @@ components:
           type: string
       required:
         - isParent
+    allOfWithSingleItem:
+      description: allOf with a single item
+      nullable: true
+      allOf:
+        - $ref: '#/components/schemas/AnotherParent'
+    Ancestor:
+      type: object
+      properties:
+        p1:
+          type: integer
+    Offspring:
+      properties:
+        p2:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Ancestor'

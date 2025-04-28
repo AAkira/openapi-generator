@@ -28,7 +28,7 @@ class Category {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -40,7 +40,7 @@ class Category {
     defaultValue: 'default-name',
     name: r'name',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -48,15 +48,17 @@ class Category {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Category &&
-     other.id == id &&
-     other.name == name;
 
-  @override
-  int get hashCode =>
-    id.hashCode +
-    name.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Category &&
+      other.id == id &&
+      other.name == name;
+
+    @override
+    int get hashCode =>
+        id.hashCode +
+        name.hashCode;
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 

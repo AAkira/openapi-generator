@@ -8,8 +8,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirstDto;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,17 +26,17 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ArrayTest")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class ArrayTestDto {
 
   @Valid
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = new ArrayList<>();
 
   @Valid
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @Valid
-  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel;
+  private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -52,7 +54,7 @@ public class ArrayTestDto {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
@@ -80,7 +82,7 @@ public class ArrayTestDto {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
@@ -92,7 +94,7 @@ public class ArrayTestDto {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTestDto arrayArrayOfModel(List<List<ReadOnlyFirstDto>> arrayArrayOfModel) {
+  public ArrayTestDto arrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -108,15 +110,15 @@ public class ArrayTestDto {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
-  public List<List<ReadOnlyFirstDto>> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirstDto>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

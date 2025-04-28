@@ -20,7 +20,6 @@ import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Jackson2Helper;
 import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
 import com.github.jknack.handlebars.context.MethodValueResolver;
@@ -30,8 +29,10 @@ import com.github.jknack.handlebars.io.AbstractTemplateLoader;
 import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
+import lombok.Setter;
 import org.openapitools.codegen.api.AbstractTemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
+import org.openapitools.codegen.templating.handlebars.AccessAwareFieldValueResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,13 +42,13 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
-     final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
+    final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
     private final String[] extensions = {"handlebars", "hbs"};
 
     // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename
-    private final String[] canCompileFromExtensions = {".handlebars",".hbs",".mustache"};
+    private final String[] canCompileFromExtensions = {".handlebars", ".hbs", ".mustache"};
     private boolean infiniteLoops = false;
-    private boolean prettyPrint = false;
+    @Setter private boolean prettyPrint = false;
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -59,6 +60,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return "handlebars";
     }
 
+    @Override
     public String compileTemplate(TemplatingExecutor executor,
                                   Map<String, Object> bundle, String templateFile) throws IOException {
         TemplateLoader loader = new AbstractTemplateLoader() {
@@ -73,8 +75,8 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
                 .resolver(
                         MapValueResolver.INSTANCE,
                         JavaBeanValueResolver.INSTANCE,
-                        FieldValueResolver.INSTANCE,
-                        MethodValueResolver.INSTANCE)
+                        MethodValueResolver.INSTANCE,
+                        AccessAwareFieldValueResolver.INSTANCE)
                 .build();
 
         Handlebars handlebars = new Handlebars(loader);
@@ -139,8 +141,5 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return this;
     }
 
-    public void setPrettyPrint(boolean prettyPrint) {
-        this.prettyPrint = prettyPrint;
-    }
 }
 

@@ -15,7 +15,20 @@ end
 function add_pet_validate(handler)
     function add_pet_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "add_pet"
         
+        n = "Pet"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -45,7 +58,31 @@ end
 function delete_pet_validate(handler)
     function delete_pet_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "delete_pet"
         
+        n = "petId"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+        
+        n = "api_key"
+        v = get(openapi_params, n, nothing)
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -63,7 +100,7 @@ function find_pets_by_status_read(handler)
     function find_pets_by_status_read_handler(req::HTTP.Request)
         openapi_params = Dict{String,Any}()
         query_params = HTTP.queryparams(URIs.URI(req.target))
-        openapi_params["status"] = OpenAPI.Servers.to_param(Vector{String}, query_params, "status", required=true, )
+        openapi_params["status"] = OpenAPI.Servers.to_param(Vector{String}, query_params, "status", required=true, style="form", is_explode=false)
         req.context[:openapi_params] = openapi_params
 
         return handler(req)
@@ -73,7 +110,20 @@ end
 function find_pets_by_status_validate(handler)
     function find_pets_by_status_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "find_pets_by_status"
         
+        n = "status"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -91,7 +141,7 @@ function find_pets_by_tags_read(handler)
     function find_pets_by_tags_read_handler(req::HTTP.Request)
         openapi_params = Dict{String,Any}()
         query_params = HTTP.queryparams(URIs.URI(req.target))
-        openapi_params["tags"] = OpenAPI.Servers.to_param(Vector{String}, query_params, "tags", required=true, )
+        openapi_params["tags"] = OpenAPI.Servers.to_param(Vector{String}, query_params, "tags", required=true, style="form", is_explode=false)
         req.context[:openapi_params] = openapi_params
 
         return handler(req)
@@ -101,7 +151,20 @@ end
 function find_pets_by_tags_validate(handler)
     function find_pets_by_tags_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "find_pets_by_tags"
         
+        n = "tags"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -129,7 +192,20 @@ end
 function get_pet_by_id_validate(handler)
     function get_pet_by_id_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "get_pet_by_id"
         
+        n = "petId"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -156,7 +232,20 @@ end
 function update_pet_validate(handler)
     function update_pet_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "update_pet"
         
+        n = "Pet"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -175,9 +264,10 @@ function update_pet_with_form_read(handler)
         openapi_params = Dict{String,Any}()
         path_params = HTTP.getparams(req)
         openapi_params["petId"] = OpenAPI.Servers.to_param(Int64, path_params, "petId", required=true, )
-        form_data =  HTTP.parse_multipart_form(req)
-        openapi_params["name"] = OpenAPI.Servers.to_param(String, form_data, "name"; multipart=true, isfile=false, )
-        openapi_params["status"] = OpenAPI.Servers.to_param(String, form_data, "status"; multipart=true, isfile=false, )
+        ismultipart = false
+        form_data = ismultipart ? HTTP.parse_multipart_form(req) : HTTP.queryparams(String(copy(req.body)))
+        openapi_params["name"] = OpenAPI.Servers.to_param(String, form_data, "name"; multipart=ismultipart, isfile=false, )
+        openapi_params["status"] = OpenAPI.Servers.to_param(String, form_data, "status"; multipart=ismultipart, isfile=false, )
         req.context[:openapi_params] = openapi_params
 
         return handler(req)
@@ -187,7 +277,42 @@ end
 function update_pet_with_form_validate(handler)
     function update_pet_with_form_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "update_pet_with_form"
         
+        n = "petId"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+        
+        n = "name"
+        v = get(openapi_params, n, nothing)
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+        
+        n = "status"
+        v = get(openapi_params, n, nothing)
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -206,9 +331,10 @@ function upload_file_read(handler)
         openapi_params = Dict{String,Any}()
         path_params = HTTP.getparams(req)
         openapi_params["petId"] = OpenAPI.Servers.to_param(Int64, path_params, "petId", required=true, )
-        form_data =  HTTP.parse_multipart_form(req)
-        openapi_params["additionalMetadata"] = OpenAPI.Servers.to_param(String, form_data, "additionalMetadata"; multipart=true, isfile=false, )
-        openapi_params["file"] = OpenAPI.Servers.to_param(String, form_data, "file"; multipart=true, isfile=true, )
+        ismultipart = true
+        form_data = ismultipart ? HTTP.parse_multipart_form(req) : HTTP.queryparams(String(copy(req.body)))
+        openapi_params["additionalMetadata"] = OpenAPI.Servers.to_param(String, form_data, "additionalMetadata"; multipart=ismultipart, isfile=false, )
+        openapi_params["file"] = OpenAPI.Servers.to_param(Vector{UInt8}, form_data, "file"; multipart=ismultipart, isfile=true, )
         req.context[:openapi_params] = openapi_params
 
         return handler(req)
@@ -218,7 +344,42 @@ end
 function upload_file_validate(handler)
     function upload_file_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "upload_file"
         
+        n = "petId"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+        
+        n = "additionalMetadata"
+        v = get(openapi_params, n, nothing)
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+        
+        n = "file"
+        v = get(openapi_params, n, nothing)
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end

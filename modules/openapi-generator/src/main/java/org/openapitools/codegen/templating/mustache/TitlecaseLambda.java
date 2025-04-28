@@ -26,19 +26,19 @@ import java.util.Locale;
 
 /**
  * Converts text in a fragment to title case.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("titlecase", new TitlecaseLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#titlecase}}{{classname}}{{/titlecase}}
  * </pre>
  */
-public class TitlecaseLambda implements Mustache.Lambda  {
-    private String delimiter;
+public class TitlecaseLambda implements Mustache.Lambda {
+    private final String delimiter;
 
     /**
      * Constructs a new instance of {@link TitlecaseLambda}, which will convert all text
@@ -51,7 +51,7 @@ public class TitlecaseLambda implements Mustache.Lambda  {
     /**
      * Constructs a new instance of {@link TitlecaseLambda}, splitting on the specified
      * delimiter and converting each word to title-case.
-     *
+     * <p>
      * NOTE: passing {@code null} results in a title-casing the first word only.
      *
      * @param delimiter Provided to allow an override for the default space delimiter.
@@ -61,7 +61,7 @@ public class TitlecaseLambda implements Mustache.Lambda  {
     }
 
     private String titleCase(final String input) {
-        if(input == null || "".equals(input)){
+        if (input == null || "".equals(input)) {
             return "";
         }
 

@@ -17,7 +17,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,36 +24,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * TriangleInterface
  */
 @JsonPropertyOrder({
   TriangleInterface.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
+  @javax.annotation.Nonnull
   private String triangleType;
 
   public TriangleInterface() { 
   }
 
-  public TriangleInterface triangleType(String triangleType) {
+  public TriangleInterface triangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
 
-   /**
+  /**
    * Get triangleType
    * @return triangleType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getTriangleType() {
     return triangleType;
   }
@@ -62,7 +63,7 @@ public class TriangleInterface {
 
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 
@@ -141,7 +142,7 @@ public class TriangleInterface {
 
     // add `triangleType` to the URL query string
     if (getTriangleType() != null) {
-      joiner.add(String.format("%striangleType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTriangleType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%striangleType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getTriangleType()))));
     }
 
     return joiner.toString();

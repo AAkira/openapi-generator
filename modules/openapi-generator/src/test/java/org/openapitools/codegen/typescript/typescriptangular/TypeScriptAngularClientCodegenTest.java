@@ -16,10 +16,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
@@ -226,10 +229,10 @@ public class TypeScriptAngularClientCodegenTest {
 
         final String modelName = "FooResponse__links";
         final Schema schema = new Schema()
-            .name(modelName)
-            .description("an inline model with name previously prefixed with underscore")
-            .addRequiredItem("self")
-            .addProperties("self", new StringSchema());
+                .name(modelName)
+                .description("an inline model with name previously prefixed with underscore")
+                .addRequiredItem("self")
+                .addProperty("self", new StringSchema());
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);
@@ -312,5 +315,153 @@ public class TypeScriptAngularClientCodegenTest {
                 "import { ExpressionToken } from './expressionToken'",
                 "export type Token = ExpressionToken | StringToken"
         );
+    }
+
+    @Test
+    public void testModelNameMappings() throws Exception {
+        final String specPath = "src/test/resources/2_0/issue_8289.json";
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Map<String, String> modelNames = new HashMap<>();
+        modelNames.put("File", "SystemFile");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setModelNameMappings(modelNames)
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model/folder.ts"),
+                "files?: Array<SystemFile>;" // ensure it's an array of SystemFile (not Any)
+        );
+    }
+
+    @Test
+    public void testAngularDependenciesFromCliOptions() {
+        // GIVEN
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
+        codegen.additionalProperties().put("tsVersion", "12");
+        codegen.additionalProperties().put("rxjsVersion", "23");
+        codegen.additionalProperties().put("ngPackagrVersion", "34");
+        codegen.additionalProperties().put("zonejsVersion", "45");
+
+        // WHEN
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+
+        // THEN
+        assertThat(codegen.additionalProperties()).containsEntry("tsVersion", "12");
+        assertThat(codegen.additionalProperties()).containsEntry("rxjsVersion", "23");
+        assertThat(codegen.additionalProperties()).containsEntry("ngPackagrVersion", "34");
+        assertThat(codegen.additionalProperties()).containsEntry("zonejsVersion", "45");
+    }
+
+    @Test
+    public void testAngularDependenciesFromConfigFile() {
+        // GIVEN
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
+        // We fix ngVersion to do not update this test on every new angular release.
+        codegen.additionalProperties().put("ngVersion", "19.0.0");
+
+        // WHEN
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+
+        // THEN
+        assertThat(codegen.additionalProperties()).containsEntry("tsVersion", ">=5.5.0 <5.7.0");
+        assertThat(codegen.additionalProperties()).containsEntry("rxjsVersion", "7.4.0");
+        assertThat(codegen.additionalProperties()).containsEntry("ngPackagrVersion", "19.0.0");
+        assertThat(codegen.additionalProperties()).containsEntry("zonejsVersion", "0.15.0");
+    }
+
+    @Test
+    public void testNoDuplicateAuthentication() throws IOException {
+        // GIVEN
+        final String specPath = "src/test/resources/3_0/spring/petstore-auth.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        // THEN
+        final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
+        assertThat(fileContents).containsOnlyOnce("localVarHeaders = this.configuration.addCredentialToHeaders('OAuth2', 'Authorization', localVarHeaders, 'Bearer ');");
+    }
+
+    @Test
+    public void testBasePath() throws IOException {
+        // GIVEN
+        final String specPath = "src/test/resources/3_0/typescript-angular/issue_20760.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        // THEN
+        final String fileContents = Files.readString(Paths.get(output + "/api.base.service.ts"));
+        assertThat(fileContents).containsOnlyOnce("basePath = '/relative/url'");
+    }
+
+    @Test
+    public void testEnumAsConst() throws IOException {
+        // GIVEN
+        final String specPath = "src/test/resources/3_0/enum.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        // THEN
+        final String fileContents = Files.readString(Paths.get(output + "/model/type.ts"));
+        assertThat(fileContents).containsOnlyOnce("} as const;");
+        assertThat(fileContents).doesNotContain(" as Type");
     }
 }

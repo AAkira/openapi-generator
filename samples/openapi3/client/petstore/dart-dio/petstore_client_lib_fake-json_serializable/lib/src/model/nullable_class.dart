@@ -49,7 +49,7 @@ class NullableClass {
     
     name: r'integer_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -61,7 +61,7 @@ class NullableClass {
     
     name: r'number_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -73,7 +73,7 @@ class NullableClass {
     
     name: r'boolean_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -85,7 +85,7 @@ class NullableClass {
     
     name: r'string_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -97,7 +97,7 @@ class NullableClass {
     
     name: r'date_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
   @DateSerializer()
@@ -110,7 +110,7 @@ class NullableClass {
     
     name: r'datetime_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -122,7 +122,7 @@ class NullableClass {
     
     name: r'array_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -134,7 +134,7 @@ class NullableClass {
     
     name: r'array_and_items_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -146,7 +146,7 @@ class NullableClass {
     
     name: r'array_items_nullable',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -158,7 +158,7 @@ class NullableClass {
     
     name: r'object_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -170,7 +170,7 @@ class NullableClass {
     
     name: r'object_and_items_nullable_prop',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -182,7 +182,7 @@ class NullableClass {
     
     name: r'object_items_nullable',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -190,35 +190,37 @@ class NullableClass {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
-     other.integerProp == integerProp &&
-     other.numberProp == numberProp &&
-     other.booleanProp == booleanProp &&
-     other.stringProp == stringProp &&
-     other.dateProp == dateProp &&
-     other.datetimeProp == datetimeProp &&
-     other.arrayNullableProp == arrayNullableProp &&
-     other.arrayAndItemsNullableProp == arrayAndItemsNullableProp &&
-     other.arrayItemsNullable == arrayItemsNullable &&
-     other.objectNullableProp == objectNullableProp &&
-     other.objectAndItemsNullableProp == objectAndItemsNullableProp &&
-     other.objectItemsNullable == objectItemsNullable;
 
-  @override
-  int get hashCode =>
-    (integerProp == null ? 0 : integerProp.hashCode) +
-    (numberProp == null ? 0 : numberProp.hashCode) +
-    (booleanProp == null ? 0 : booleanProp.hashCode) +
-    (stringProp == null ? 0 : stringProp.hashCode) +
-    (dateProp == null ? 0 : dateProp.hashCode) +
-    (datetimeProp == null ? 0 : datetimeProp.hashCode) +
-    (arrayNullableProp == null ? 0 : arrayNullableProp.hashCode) +
-    (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp.hashCode) +
-    arrayItemsNullable.hashCode +
-    (objectNullableProp == null ? 0 : objectNullableProp.hashCode) +
-    (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
-    objectItemsNullable.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
+      other.integerProp == integerProp &&
+      other.numberProp == numberProp &&
+      other.booleanProp == booleanProp &&
+      other.stringProp == stringProp &&
+      other.dateProp == dateProp &&
+      other.datetimeProp == datetimeProp &&
+      other.arrayNullableProp == arrayNullableProp &&
+      other.arrayAndItemsNullableProp == arrayAndItemsNullableProp &&
+      other.arrayItemsNullable == arrayItemsNullable &&
+      other.objectNullableProp == objectNullableProp &&
+      other.objectAndItemsNullableProp == objectAndItemsNullableProp &&
+      other.objectItemsNullable == objectItemsNullable;
+
+    @override
+    int get hashCode =>
+        (integerProp == null ? 0 : integerProp.hashCode) +
+        (numberProp == null ? 0 : numberProp.hashCode) +
+        (booleanProp == null ? 0 : booleanProp.hashCode) +
+        (stringProp == null ? 0 : stringProp.hashCode) +
+        (dateProp == null ? 0 : dateProp.hashCode) +
+        (datetimeProp == null ? 0 : datetimeProp.hashCode) +
+        (arrayNullableProp == null ? 0 : arrayNullableProp.hashCode) +
+        (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp.hashCode) +
+        arrayItemsNullable.hashCode +
+        (objectNullableProp == null ? 0 : objectNullableProp.hashCode) +
+        (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
+        objectItemsNullable.hashCode;
 
   factory NullableClass.fromJson(Map<String, dynamic> json) => _$NullableClassFromJson(json);
 

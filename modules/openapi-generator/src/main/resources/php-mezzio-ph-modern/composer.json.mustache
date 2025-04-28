@@ -1,11 +1,24 @@
 {
     "name": "{{#lambda.lowercase}}{{gitUserId}}/{{gitRepoId}}{{/lambda.lowercase}}",
     "description": "{{description}}",
-    "license": "unlicense",
+    "keywords": [
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "{{{artifactUrl}}}",
+    "license": "{{{licenseName}}}",
+    "authors": [
+        {
+            "name": "{{{developerOrganization}}}",
+            "homepage": "{{{developerOrganizationUrl}}}"
+        }
+    ],
     "version": "{{artifactVersion}}",
     "type": "project",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-yaml": "^2.2",
         "mezzio/mezzio": "^3.3",
         "laminas/laminas-diactoros": "^2.5",

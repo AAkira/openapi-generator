@@ -19,43 +19,34 @@ package org.openapitools.codegen.templating.mustache;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.openapitools.codegen.CodegenConfig;
 
 import java.io.IOException;
 import java.io.Writer;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 /**
  * Strips trailing ? from a text fragment
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("required", new RequiredParameterLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#lambda.required}}{{name}}{{/lambda.required}}
  * </pre>
  */
 public class RequiredParameterLambda implements Mustache.Lambda {
-    private CodegenConfig generator = null;
-    private Boolean escapeParam = false;
 
-    public RequiredParameterLambda() {}
-
-    public RequiredParameterLambda generator(final CodegenConfig generator) {
-        this.generator = generator;
-        return this;
+    public RequiredParameterLambda() {
     }
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         String text = fragment.execute();
         text = text.endsWith("?")
-            ? text.substring(0, text.length() - 1)
-            : text;
+                ? text.substring(0, text.length() - 1)
+                : text;
 
         writer.write(text);
     }

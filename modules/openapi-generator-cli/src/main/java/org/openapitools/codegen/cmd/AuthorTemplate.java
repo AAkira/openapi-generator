@@ -45,7 +45,7 @@ public class AuthorTemplate extends OpenApiGeneratorCommand {
     @Override
     void execute() {
         CodegenConfig config = CodegenConfigLoader.forName(generatorName);
-        String templateDirectory = config.templateDir();
+        String templateDirectory = config.templateDir().replace('\\', '/');
 
         log("Requesting '{}' from embedded resource directory '{}'", generatorName, templateDirectory);
 
@@ -138,7 +138,7 @@ public class AuthorTemplate extends OpenApiGeneratorCommand {
                             } else {
                                 LOGGER.warn("The library filter '{}' extracted an unexpected library path: {}", library, p.toAbsolutePath());
                             }
-                });
+                        });
             }
 
             LOGGER.info("Extracted templates to '{}' directory. Refer to https://openapi-generator.tech/docs/templating for customization details.", outputDirPath);
