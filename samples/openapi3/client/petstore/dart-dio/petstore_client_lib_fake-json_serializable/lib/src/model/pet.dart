@@ -5,12 +5,14 @@
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/tag.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:openapi/src/model/date_serializer.dart';
 
 part 'pet.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

@@ -40,6 +40,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
+import static org.openapitools.codegen.CodegenConstants.X_REGEX;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 
@@ -1061,6 +1063,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     public String toEnumVariableName(String name, String datatype) {
+        name = name.replace(".", "_DOT_");
+
         if ("int".equals(datatype)) {
             return "NUMBER_" + name.replace("-", "MINUS_");
         }
@@ -1351,9 +1355,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            vendorExtensions.put("x-regex", regex.replace("\"", "\\\""));
+            vendorExtensions.put(X_REGEX, regex.replace("\"", "\\\""));
             vendorExtensions.put("x-pattern", pattern.replace("\"", "\\\""));
-            vendorExtensions.put("x-modifiers", modifiers);
+            vendorExtensions.put(X_MODIFIERS, modifiers);
         }
     }
 
@@ -2022,7 +2026,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         private PythonType uuidType(IJsonSchemaValidationProperties cp) {
-            return new PythonType(cp.getDataType());
+            moduleImports.add("uuid", "UUID");
+            return new PythonType("UUID");
         }
 
         private PythonType modelType(IJsonSchemaValidationProperties cp) {
@@ -2049,6 +2054,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return arrayType(cp);
             } else if (cp.getIsMap() || cp.getIsFreeFormObject()) {
                 return mapType(cp);
+            } else if (cp.getIsUuid()) {
+                return uuidType(cp);
             } else if (cp.getIsString()) {
                 return stringType(cp);
             } else if (cp.getIsNumber() || cp.getIsFloat() || cp.getIsDouble()) {
@@ -2065,8 +2072,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return anyType(cp);
             } else if (cp.getIsDate() || cp.getIsDateTime()) {
                 return dateType(cp);
-            } else if (cp.getIsUuid()) {
-                return uuidType(cp);
             }
 
             return null;

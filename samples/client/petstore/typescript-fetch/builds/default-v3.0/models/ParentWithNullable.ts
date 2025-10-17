@@ -13,7 +13,7 @@
  */
 
 import { mapValues } from '../runtime';
-import { ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
+import { type ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullableToJSON, ChildWithNullableToJSONTyped } from './ChildWithNullable';
 /**
  * 
  * @export
@@ -63,6 +63,7 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
         if (json['type'] === 'ChildWithNullable') {
             return ChildWithNullableFromJSONTyped(json, ignoreDiscriminator);
         }
+
     }
     return {
         

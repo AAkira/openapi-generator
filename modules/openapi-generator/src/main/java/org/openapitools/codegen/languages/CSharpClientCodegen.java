@@ -39,6 +39,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.CodegenConstants.X_CSHARP_VALUE_TYPE;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -134,7 +135,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
-    protected String releaseNote = "Minor update";
     @Setter protected String licenseId;
     @Setter protected String packageTags;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -212,10 +212,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.LICENSE_ID,
                 CodegenConstants.LICENSE_ID_DESC,
                 this.licenseId);
-
-        addOption(CodegenConstants.RELEASE_NOTE,
-                CodegenConstants.RELEASE_NOTE_DESC,
-                this.releaseNote);
 
         addOption(CodegenConstants.PACKAGE_TAGS,
                 CodegenConstants.PACKAGE_TAGS_DESC,
@@ -414,7 +410,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         super.updateCodegenParameterEnumLegacy(parameter, model);
 
-        if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+        if (!parameter.required && parameter.vendorExtensions.get(X_CSHARP_VALUE_TYPE) != null) { //optional
             parameter.dataType = parameter.dataType + "?";
         }
     }
@@ -441,7 +437,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema<?> parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+                final CodegenModel parentCodegenModel = getCodegenModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
@@ -1293,11 +1289,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
-    @Override
-    public void setReleaseNote(String releaseNote) {
-        this.releaseNote = releaseNote;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
@@ -1636,7 +1627,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (!GENERICHOST.equals(getLibrary())) {
             if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
-                property.vendorExtensions.put("x-csharp-value-type", true);
+                property.vendorExtensions.put(X_CSHARP_VALUE_TYPE, true);
             }
         }
     }
@@ -1758,7 +1749,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
-        /**
+        /*
          * we have a custom version of this function so we only set isMap to true if
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas

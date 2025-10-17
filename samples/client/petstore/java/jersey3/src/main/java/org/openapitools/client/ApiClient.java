@@ -63,6 +63,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.time.OffsetDateTime;
@@ -86,15 +87,15 @@ import org.openapitools.client.auth.OAuth;
 /**
  * <p>ApiClient class.</p>
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
-  private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+  protected static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
   protected Map<String, String> defaultHeaderMap = new HashMap<>();
   protected Map<String, String> defaultCookieMap = new HashMap<>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
   protected String userAgent;
-  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+  protected static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   protected List<ServerConfiguration> servers = new ArrayList<>(Arrays.asList(
           new ServerConfiguration(
@@ -178,7 +179,7 @@ public class ApiClient extends JavaTimeFormatter {
   protected boolean debugging = false;
   protected ClientConfig clientConfig;
   protected int connectionTimeout = 0;
-  private int readTimeout = 0;
+  protected int readTimeout = 0;
 
   protected Client httpClient;
   protected JSON json;
@@ -379,13 +380,13 @@ public class ApiClient extends JavaTimeFormatter {
     return this;
   }
 
-  private void updateBasePath() {
+  protected void updateBasePath() {
     if (serverIndex != null) {
         setBasePath(servers.get(serverIndex).URL(serverVariables));
     }
   }
 
-  private void setOauthBasePath(String basePath) {
+  protected void setOauthBasePath(String basePath) {
     for(Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setBasePath(basePath);
@@ -1031,7 +1032,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param key Key of the object
    * @param multiPart MultiPart to add the form param to
    */
-  private void addParamToMultipart(Object value, String key, MultiPart multiPart) {
+  protected void addParamToMultipart(Object value, String key, MultiPart multiPart) {
     if (value instanceof File) {
       File file = (File) value;
       FormDataContentDisposition contentDisp = FormDataContentDisposition.name(key)
@@ -1224,6 +1225,7 @@ public class ApiClient extends JavaTimeFormatter {
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
+                Locale.ROOT,
                 "Invalid index %d when selecting the host settings. Must be less than %d",
                 index, serverConfigurations.size()));
       }
@@ -1293,10 +1295,8 @@ public class ApiClient extends JavaTimeFormatter {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
-      final int statusCode = response.getStatusInfo().getStatusCode();
-
       // If OAuth is used and a status 401 is received, renew the access token and retry the request
-      if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
+      if (authNames != null && response.getStatusInfo().getStatusCode() == Status.UNAUTHORIZED.getStatusCode()) {
         for (String authName : authNames) {
           Authentication authentication = authentications.get(authName);
           if (authentication instanceof OAuth) {
@@ -1310,6 +1310,8 @@ public class ApiClient extends JavaTimeFormatter {
           }
         }
       }
+
+      final int statusCode = response.getStatusInfo().getStatusCode();
 
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
@@ -1345,7 +1347,7 @@ public class ApiClient extends JavaTimeFormatter {
     }
   }
 
-  private Response sendRequest(String method, Invocation.Builder invocationBuilder, Entity<?> entity) {
+  protected Response sendRequest(String method, Invocation.Builder invocationBuilder, Entity<?> entity) {
     Response response;
     if ("POST".equals(method)) {
       response = invocationBuilder.post(entity);
@@ -1381,7 +1383,7 @@ public class ApiClient extends JavaTimeFormatter {
   protected Client buildHttpClient() {
     // Create ClientConfig if it has not been initialized yet
     if (clientConfig == null) {
-    clientConfig = getDefaultClientConfig();
+      clientConfig = getDefaultClientConfig();
     }
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
@@ -1407,7 +1409,7 @@ public class ApiClient extends JavaTimeFormatter {
     return clientConfig;
   }
 
-  private void applyDebugSetting(ClientConfig clientConfig) {
+  protected void applyDebugSetting(ClientConfig clientConfig) {
     if (debugging) {
       clientConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 1024*50 /* Log payloads up to 50K */));
       clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
