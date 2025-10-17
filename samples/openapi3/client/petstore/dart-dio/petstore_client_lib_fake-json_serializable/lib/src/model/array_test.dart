@@ -4,12 +4,14 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/read_only_first.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:openapi/src/model/date_serializer.dart';
 
 part 'array_test.g.dart';
 
 
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

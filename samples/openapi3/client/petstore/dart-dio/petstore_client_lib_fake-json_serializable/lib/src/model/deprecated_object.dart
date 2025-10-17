@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:openapi/src/model/date_serializer.dart';
 
@@ -10,6 +11,7 @@ part 'deprecated_object.g.dart';
 
 
 @Deprecated('DeprecatedObject has been deprecated')
+@CopyWith()
 @JsonSerializable(
   checked: true,
   createToJson: true,

@@ -22,13 +22,6 @@ pub enum TestsAllOfWithOneModelGetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`tests_discriminator_duplicate_enums_get`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum TestsDiscriminatorDuplicateEnumsGetError {
-    UnknownValue(serde_json::Value),
-}
-
 /// struct for typed errors of method [`tests_file_response_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -46,7 +39,7 @@ pub enum TestsTypeTestingGetError {
 
 pub fn tests_all_of_with_one_model_get(configuration: &configuration::Configuration, foo_person: models::FooPerson) -> Result<String, Error<TestsAllOfWithOneModelGetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_foo_person = foo_person;
+    let p_body_foo_person = foo_person;
 
     let uri_str = format!("{}/tests/allOfWithOneModel", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -54,7 +47,7 @@ pub fn tests_all_of_with_one_model_get(configuration: &configuration::Configurat
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    req_builder = req_builder.json(&p_foo_person);
+    req_builder = req_builder.json(&p_body_foo_person);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req)?;
@@ -77,40 +70,6 @@ pub fn tests_all_of_with_one_model_get(configuration: &configuration::Configurat
     } else {
         let content = resp.text()?;
         let entity: Option<TestsAllOfWithOneModelGetError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
-
-pub fn tests_discriminator_duplicate_enums_get(configuration: &configuration::Configuration, ) -> Result<models::FooTestsDiscriminatorDuplicateEnumsGet200Response, Error<TestsDiscriminatorDuplicateEnumsGetError>> {
-
-    let uri_str = format!("{}/tests/discriminatorDuplicateEnums", configuration.base_path);
-    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req)?;
-
-    let status = resp.status();
-    let content_type = resp
-        .headers()
-        .get("content-type")
-        .and_then(|v| v.to_str().ok())
-        .unwrap_or("application/octet-stream");
-    let content_type = super::ContentType::from(content_type);
-
-    if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text()?;
-        match content_type {
-            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::FooTestsDiscriminatorDuplicateEnumsGet200Response`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::FooTestsDiscriminatorDuplicateEnumsGet200Response`")))),
-        }
-    } else {
-        let content = resp.text()?;
-        let entity: Option<TestsDiscriminatorDuplicateEnumsGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

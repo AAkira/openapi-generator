@@ -27,7 +27,7 @@ import io.vertx.ext.web.client.WebClient
 import io.vertx.uritemplate.UriTemplate
 
 {{#useCoroutines}}
-import io.vertx.kotlin.coroutines.await
+import io.vertx.kotlin.coroutines.coAwait
 import io.vertx.kotlin.coroutines.dispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -88,7 +88,7 @@ import {{packageName}}.infrastructure.*
     {{/isEnum}}
     {{/allParams}}
     /**
-     * {{{httpMethod}}} {{{path}}}
+     * {{{httpMethod}}} {{#sanitizePathComment}}{{{path}}}{{/sanitizePathComment}}
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
@@ -119,11 +119,11 @@ import {{packageName}}.infrastructure.*
                     throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
                 }
             }
-        }{{#useCoroutines}}.await(){{/useCoroutines}}
+        }{{#useCoroutines}}.coAwait(){{/useCoroutines}}
     }
 
     /**
-     * {{{httpMethod}}} {{{path}}}
+     * {{{httpMethod}}} {{#sanitizePathComment}}{{{path}}}{{/sanitizePathComment}}
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}

@@ -130,7 +130,7 @@ export class {{classname}} extends BaseService {
         {{/isArray}}
         {{^isArray}}
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>{{paramName}}, '{{baseName}}');
+          <any>{{paramName}}, '{{baseName}}'{{#isDeepObject}}, true{{/isDeepObject}});
         {{/isArray}}
 {{/queryParams}}
 
@@ -302,7 +302,7 @@ export class {{classname}} extends BaseService {
                 headers: localVarHeaders,
                 observe: observe,
     {{#httpTransferCacheInOptions}}
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
     {{/httpTransferCacheInOptions}}
                 reportProgress: reportProgress
             }
